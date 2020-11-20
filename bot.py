@@ -1,3 +1,4 @@
+from jsonhandler import FileIO
 from twitchio.ext import commands
 
 from config import Config
@@ -14,6 +15,8 @@ class TwitchBot(commands.Bot):
             prefix="!",
             initial_channels=[]
         )
+        self.custom_cmd_file = FileIO("./customcommands.json")
+        self.customcommands = self.custom_cmd_file.data
 
     async def event_ready(self):
         print(f"Bot is online!")
@@ -21,6 +24,15 @@ class TwitchBot(commands.Bot):
         await bot.join_channels(channels=['lisarei'])
         await ws.send_privmsg("lisarei", f"i am alive")
         print(f'Ready | {bot.nick}')
+
+    async def event_message(self, message):
+        customcmd = message.content.split()
+        if customcmd[0][1:].lower() in self.customcommands.keys():
+            content = self.custom_cmd_file[customcmd[0][1:].lower()]
+            await message.channel.send(content)
+            return
+
+        await self.handle_commands(message)
 
 
 # for each new file with commands add the file name into this list
