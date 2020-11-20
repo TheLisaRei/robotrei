@@ -19,6 +19,17 @@ class Moderation:
         if ctx.author.is_mod:
             await ctx.channel.send("pong!")
 
+    @commands.command(name="w")
+    async def _w(self, ctx):
+        if ctx.author.is_mod:
+            await ctx.channel.send("welcome welcome thnx for stopping by <3")
+
+    @commands.command(name="f")
+    async def _f(self, ctx):
+        if ctx.author.is_mod:
+            await ctx.channel.send(
+                "thank u for following - is what the bot will say all by itself when we figure out webhooks...")
+
     @commands.command(name="customcmd")
     async def _customcmd(self, ctx, cmd, *, content):
         if ctx.author.is_mod:
@@ -28,19 +39,17 @@ class Moderation:
             else:
                 await ctx.send(f"The command {cmd} already exist")
 
-    @commands.command(name="love")
-    async def _love(self, ctx):
-        await ctx.channel.send("i love u!")
-
-    @commands.command(name="hate")
-    async def _hate(self, ctx):
-        await ctx.channel.send("i hate u!")
 
     @commands.command(name="time")
     async def _time(self, ctx):
         await ctx.channel.send(
             f' time is  a social construct but here u go {(datetime.datetime.now()).strftime("%m/%d/%Y, %H:%M:%S")}')
 
+    @commands.command(name="list")
+    async def _list(self, ctx):
+        await ctx.channel.send(f"your wish is my command, use: {', '.join(self.bot.commands)}")
+
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
+

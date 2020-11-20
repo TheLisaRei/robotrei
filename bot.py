@@ -1,6 +1,7 @@
 from jsonhandler import FileIO
 from twitchio.ext import commands
 
+
 from config import Config
 
 
@@ -13,7 +14,16 @@ class TwitchBot(commands.Bot):
             client_id=Config.CLIENT_ID,
             nick=Config.BOT_NICK,
             prefix="!",
-            initial_channels=[]
+            initial_channels=[],
+           # port=8080,
+           # webhook_server=True,
+           # local_host='http://localhost',
+           # external_host=f"http://{PUBLIC_IP}",
+           # callback="89899189f08cc4e56b8d610c96fd3da08"
+
+
+
+
         )
         self.custom_cmd_file = FileIO("./customcommands.json")
         self.customcommands = self.custom_cmd_file.data
@@ -22,8 +32,11 @@ class TwitchBot(commands.Bot):
         print(f"Bot is online!")
         ws = bot._ws  # this is only needed to send messages within event_ready
         await bot.join_channels(channels=['lisarei'])
-        await ws.send_privmsg("lisarei", f"i am alive")
+      #  await ws.send_privmsg("lisarei", f"i am alive")
         print(f'Ready | {bot.nick}')
+        # follow troubles
+      #  await self.modify_webhook_subscription(mode=WebhookMode.subscribe, topic=UserFollows(to_id=178940115),lease_seconds=60)
+
 
     async def event_message(self, message):
         customcmd = message.content.split()
@@ -37,6 +50,8 @@ class TwitchBot(commands.Bot):
 
 # for each new file with commands add the file name into this list
 modules = ['commands']
+
+
 
 if __name__ == "__main__":
     bot = TwitchBot()
