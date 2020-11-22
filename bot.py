@@ -42,7 +42,8 @@ class TwitchBot(commands.Bot):
         customcmd = message.content.split()
         if customcmd[0][1:].lower() in self.customcommands.keys():
             content = self.custom_cmd_file[customcmd[0][1:].lower()]
-            await message.channel.send(content)
+            formatted = content.format(ctx=message)
+            await message.channel.send(formatted)
             return
 
         await self.handle_commands(message)

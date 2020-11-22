@@ -22,13 +22,13 @@ class Moderation:
     @commands.command(name="w")
     async def _w(self, ctx):
         if ctx.author.is_mod:
-            await ctx.channel.send("welcome welcome thnx for stopping by <3")
+            await ctx.channel.send("/me : welcome welcome thnx for stopping by <3")
 
     @commands.command(name="f")
     async def _f(self, ctx):
         if ctx.author.is_mod:
             await ctx.channel.send(
-                "thank u for following - is what the bot will say all by itself when we figure out webhooks...")
+                "/me : thank u for following - is what the bot will say all by itself when we figure out webhooks...")
 
     @commands.command(name="customcmd")
     async def _customcmd(self, ctx, cmd, *, content):
@@ -43,11 +43,16 @@ class Moderation:
     @commands.command(name="time")
     async def _time(self, ctx):
         await ctx.channel.send(
-            f' time is  a social construct but here u go {(datetime.datetime.now()).strftime("%m/%d/%Y, %H:%M:%S")}')
+            f'time is  a social construct but here u go, it is: {(datetime.datetime.now()).strftime("%H:%M, %A %d/%m")}... gmt+1 babyy')
 
     @commands.command(name="list")
     async def _list(self, ctx):
-        await ctx.channel.send(f"your wish is my command, use: {', '.join(self.bot.commands)}")
+        await ctx.channel.send(f"/me : your wish is my command, use: {', '.join(self.bot.commands)}")
+
+    # @commands.command(name="timer")
+    #async def _timer(self, ctx):
+     #   await ctx.channel.send(f"/me : starting your timer: {timerrr}")
+
 
 
 def setup(bot):
