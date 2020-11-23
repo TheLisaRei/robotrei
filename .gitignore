@@ -4,6 +4,7 @@
 # Configuration tokens for twitch, never includes
 config.py
 config.json
+mysql.json
 # Dev environments
 __pycache__
 .idea
