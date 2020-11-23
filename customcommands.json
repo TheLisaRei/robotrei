@@ -15,12 +15,13 @@
     "age" : "/me : if i were a dog id be dead... mid 20s",
     "hydrate" : "/me : drink some water u cactussss",
     "mood" : "/me : how u doing should we call the psychward yet?",
-    "song" : "/me : coming soon??? maybe... no rush tho",
-    "text" : "/me : today we are reading: Think Python How to Think Like a Computer Scientist",
     "link" : "/me : someone wants a link... maybe they will get it @lisarei",
     "phd" : "/me : phd students are making lisa cry more than the actual profs",
     "ido" : "/me : awww thank u but we should just be friends... {ctx.author.name}",
     "love" : "/me : i love you {ctx.author.name}! lisare1Fire but do u love me? say !ido...",
     "hello" : "/me : hello {ctx.author.name}!",
-    "twitter" : "/me follow me on twitter at https://twitter.com/lisareistudy"
+    "twitter" : "/me follow me on twitter at https://twitter.com/lisareistudy",
+
+    "song" : "/me : today's tunes are: {memory.song}",
+    "text" : "/me : today we are reading: {memory.text}"
 }

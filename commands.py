@@ -54,7 +54,21 @@ class Moderation:
      #   await ctx.channel.send(f"/me : starting your timer: {timerrr}")
 
 
+@commands.cog(name="Memory")
+class Memory:
+    # This class abuses the fact we not bot has a .memory item
+    # I would not normally recommend coding this way
 
-def setup(bot):
-    bot.add_cog(Moderation(bot))
+    def __init__(self, bot: TwitchBot):
+        print(f"Module Memory loaded")
+        self.bot = bot
 
+    # Mod Only commands
+    @commands.command(name="update")
+    async def _update(self, ctx, key, *args):
+        if not ctx.author.is_mod:
+            return
+
+        value = " ".join(args)
+        self.bot.memory.set(key, value)
+        print(f"Updated {key} to '{value}'")
