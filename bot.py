@@ -1,5 +1,4 @@
-from twitchbot.bots import BaseBot, PubSubClient
-from twitchbot import Command, Channel, Irc
+from twitchbot.bots import BaseBot
 from twitchbot import (
     set_message_timer_active,
     set_message_timer,
@@ -13,7 +12,7 @@ from twitchbot import (
     cfg,
     Message,
     Command,
-    InvalidArgumentsError, set_bot
+    InvalidArgumentsError
 )
 
 import datetime
@@ -23,12 +22,11 @@ import datetime
 async def cmd_function(msg, *args):
     await msg.reply(f'i was called! {msg.mention}')
 
+
 @Command('time2')
 async def cmd_function(msg, *args):
     await msg.reply(
             f'time is  a social construct but here u go, it is: {(datetime.datetime.now()).strftime("%H:%M, %A %d/%m")}... gmt+1 babyy')
-
-
 
 
 PREFIX = cfg.prefix
