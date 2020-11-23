@@ -1,0 +1,16 @@
+{
+  "admin": {
+    "name": "admin",
+    "permissions": [
+      "*"
+    ],
+    "members": [
+      "lisarei"
+    ]
+  },
+  "global": {
+    "name": "global",
+    "permissions": [],
+    "members": []
+  }
+}

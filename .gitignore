@@ -2,7 +2,7 @@
 /resources/memory.json
 
 # Configuration tokens for twitch, never includes
-config.py
+
 config.json
 mysql.json
 # Dev environments
