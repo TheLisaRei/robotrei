@@ -1,0 +1,7 @@
+{
+  "log_privmsg": true,
+  "log_whisper": true,
+  "log_command_usage": true,
+  "log_whisper_sent": true,
+  "log_privmsg_sent": true
+}
