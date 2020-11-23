@@ -21,5 +21,6 @@
     "phd" : "/me : phd students are making lisa cry more than the actual profs",
     "ido" : "/me : awww thank u but we should just be friends... {ctx.author.name}",
     "love" : "/me : i love you {ctx.author.name}! lisare1Fire but do u love me? say !ido...",
-    "hello" : "/me : hello {ctx.author.name}!"
+    "hello" : "/me : hello {ctx.author.name}!",
+    "twitter" : "/me follow me on twitter at https://twitter.com/lisareistudy"
 }
