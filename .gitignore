@@ -1,2 +1,11 @@
+# don't need to save
+/resources/memory.json
+
+# Configuration tokens for twitch, never includes
 config.py
+
+# Dev environments
+__pycache__
+.idea
 .env
+/.venv/

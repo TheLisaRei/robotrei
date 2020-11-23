@@ -3,11 +3,10 @@ from twitchio.ext import commands
 
 
 from config import Config
+from memory import Memory
 
 
-# noinspection PyAbstractClass
 class TwitchBot(commands.Bot):
-
     def __init__(self):
         super().__init__(
             irc_token=Config.TMI_TOKEN,
@@ -20,13 +19,14 @@ class TwitchBot(commands.Bot):
            # local_host='http://localhost',
            # external_host=f"http://{PUBLIC_IP}",
            # callback="89899189f08cc4e56b8d610c96fd3da08"
-
-
-
-
         )
         self.custom_cmd_file = FileIO("./customcommands.json")
         self.customcommands = self.custom_cmd_file.data
+        self.memory = Memory()
+
+    # Only here because it's abstract in the super class
+    async def event_pubsub(self, data):
+        pass
 
     async def event_ready(self):
         print(f"Bot is online!")
@@ -42,7 +42,7 @@ class TwitchBot(commands.Bot):
         customcmd = message.content.split()
         if customcmd[0][1:].lower() in self.customcommands.keys():
             content = self.custom_cmd_file[customcmd[0][1:].lower()]
-            formatted = content.format(ctx=message)
+            formatted = content.format(ctx=message, memory=self.memory)
             await message.channel.send(formatted)
             return
 
@@ -51,7 +51,6 @@ class TwitchBot(commands.Bot):
 
 # for each new file with commands add the file name into this list
 modules = ['commands']
-
 
 
 if __name__ == "__main__":
