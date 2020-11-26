@@ -1,12 +1,12 @@
-# don't need to save
-/resources/memory.json
+# Locally generated
+database.sqlite
 
-# Configuration tokens for twitch, never includes
+# Configuration with secure things
+configs/config.json
+configs/mysql.json
 
-config.json
-mysql.json
 # Dev environments
 __pycache__
 .idea
 .env
-/.venv/
+.venv/
