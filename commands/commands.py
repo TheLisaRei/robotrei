@@ -20,6 +20,10 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('AAAAAAAAAAAAAAAAAAAAAAA')
 
+@Command('eve')
+async def cmd_function(msg, *args):
+    await msg.reply('send me ISK to "xymfa" and join w my link https://www.eveonline.com/signup?invc=046f680f-889d-4949-9a19-a383f98045e2')
+
 @Command('time', aliases=['timezone'])
 async def cmd_function(msg, *args):
     await msg.reply(
