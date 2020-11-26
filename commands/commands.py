@@ -1,12 +1,24 @@
 from jsonhandler import FileIO
 from twitchbot import Command, DummyCommand, SubCommand, CustomCommand
-
-
+import json
 import datetime
+
+
+# data = json.load(open('customcommands.json', 'r'))
+
 
 @Command('hi', aliases=['hello', 'hey'])
 async def cmd_function(msg, *args):
     await msg.reply(f'hiiiii {msg.mention}')
+
+@Command('github', aliases=['gb', 'git'])
+async def cmd_function(msg, *args):
+    await msg.reply('come bully me at https://github.com/lisareina/robotrei')
+
+
+@Command('panic')
+async def cmd_function(msg, *args):
+    await msg.reply('AAAAAAAAAAAAAAAAAAAAAAA')
 
 @Command('time', aliases=['timezone'])
 async def cmd_function(msg, *args):
