@@ -4,7 +4,7 @@ import json
 import datetime
 
 
-data = json.load(open('customcommands.json', 'r'))
+# data = json.load(open('customcommands.json', 'r'))
 
 # links
 @Command('github', aliases=['gb', 'git'])
@@ -85,6 +85,20 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('lisa is from the czech republic, its a small country next to germany')
 
+@Command('python')
+async def cmd_function(msg, *args):
+    await msg.reply('i am using pycharm pro, have been learning since october 2020, rn im working on this bot')
+
+@Command('equipment')
+async def cmd_function(msg, *args):
+    await msg.reply('macbook pro 2015, keyboard: filco minila air mx brown switches')
 
 
+# bot feedback
+@Command('goodbot')
+async def cmd_function(msg, *args):
+    await msg.reply(f'awww thank u {msg.mention} i am glad u like me')
 
+@Command('badbot')
+async def cmd_function(msg, *args):
+    await msg.reply(f'wow..... {msg.mention} i have feelings too you know... u try being a bot.... its not so easy')
