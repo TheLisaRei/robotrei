@@ -11,7 +11,11 @@ import datetime
 # change each stream
 @Command('text', aliases=['reading'])
 async def cmd_function(msg, *args):
-    await msg.reply('currently i am reading xxxxxx')
+    await msg.reply('currently i am reading about tropical crop production')
+
+@Command('today')
+async def cmd_function(msg, *args):
+    await msg.reply('today i am studying for my exams, starting w tropical crop production. might see my mom today for dinner')
 
 @Command('theend')
 async def cmd_function(msg, *args):
@@ -100,6 +104,10 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('if lisa were a dog shed be dead... mid 20s')
 
+@Command('height', aliases=['tall'])
+async def cmd_function(msg, *args):
+    await msg.reply('if lisa were a tree shed be 6ft, but as a human shes 185cm or so')
+
 @Command('where', aliases=['country','origin', 'from'])
 async def cmd_function(msg, *args):
     await msg.reply('lisa is from the czech republic, its a small country next to germany')
@@ -108,7 +116,7 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('i am using pycharm pro, have been learning since october 2020, rn im working on this bot')
 
-@Command('equipment')
+@Command('equipment', aliases=['specs'])
 async def cmd_function(msg, *args):
     await msg.reply('macbook pro 2015, keyboard: filco minila air mx brown switches')
 
@@ -128,6 +136,10 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('Stardew Valley is an open-ended country-life RPG! Youve inherited your grandfathers old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life.')
 
+@Command('degree')
+async def cmd_function(msg, *args):
+    await msg.reply('im doing an MScEng in agricultural economics and international development')
+
 # bot feedback
 @Command('goodbot')
 async def cmd_function(msg, *args):
@@ -144,3 +156,9 @@ async def cmd_function(msg, *args):
 @Command('sorry')
 async def cmd_function(msg, *args):
     await msg.reply(f'hmmm i dont know if i forgive you... robots never forgive or forget')
+
+@Command('say')
+async def cmd_say(msg, *args):
+    allowed_users = {'lisarei'}
+    if msg.author in allowed_users:
+        await msg.reply(' '.join(args))
