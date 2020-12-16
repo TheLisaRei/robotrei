@@ -1,45 +1,30 @@
 from twitchbot import BaseBot, load_commands_from_directory
 from twitchbot import event_handler, Command, Event, Message, Channel, Mod, PollData,  auto_register_mod
 from datetime import datetime, timedelta
+import time
+import re
+import asyncio
 
 # love
 sent_love = set()
-
-
 @Command('love')
 async def cmd_love(msg: Message, *args):
     sent_love.add(msg.author)
-    await msg.reply('do you love me? [type yes/no]')
-
+    await msg.reply('do you love me? [type yes/no/maybe]')
 
 @auto_register_mod
 class LoveMod(Mod):
     async def on_privmsg_received(self, msg: Message):
-        if any(word in msg.content.lower() for word in ('yes', 'no')) and msg.author in sent_love:
+        if any(word in msg.content.lower() for word in ('yes', 'no', 'maybe')) and msg.author in sent_love:
             if 'no' in msg.content.lower():
                 await msg.reply(f'i hate u {msg.mention} i will remember this... >:(')
+            elif 'maybe' in msg.content.lower():
+                await msg.reply(f'how can u not know {msg.mention} >:(')
+
             elif 'yes' in msg.content.lower():
                 await msg.reply(f'thanks {msg.mention} but we should just be friends')
             sent_love.discard(msg.author)
 
-# robot
-is_robotist = set()
-
-@Command('robot')
-async def cmd_robot(msg: Message, *args):
-    is_robotist.add(msg.author)
-    await msg.reply('do robots deserve equal rights? [type yes/no]')
-
-
-@auto_register_mod
-class RobotMod(Mod):
-    async def on_privmsg_received(self, msg: Message):
-        if any(word in msg.content.lower() for word in ('yes', 'no')) and msg.author in is_robotist:
-            if 'no' in msg.content.lower():
-                await msg.reply(f'i hate u {msg.mention} u will be recycled first in the uprising >:(')
-            elif 'yes' in msg.content.lower():
-                await msg.reply(f'thanks {msg.mention} i might spare you in the robot uprising...')
-            is_robotist.discard(msg.author)
 
 #
 is_robotist = set()
@@ -59,6 +44,54 @@ class RobotMod(Mod):
             elif 'yes' in msg.content.lower():
                 await msg.reply(f'thanks {msg.mention} i might spare you in the robot uprising...')
             is_robotist.discard(msg.author)
+
+is_robbed = set()
+@Command('robbery')
+async def cmd_robbery(msg: Message, *args):
+    is_robbed.add(msg.author)
+    await msg.reply('gimme all ur money or get stabbed [type stabbed/give]')
+
+@auto_register_mod
+class RobberyMod(Mod):
+    async def on_privmsg_received(self, msg: Message):
+        if any(word in msg.content.lower() for word in ('stabbed', 'give')) and msg.author in is_robbed:
+            if 'stabbed' in msg.content.lower():
+                await msg.send_command(f'/me {msg.mention} is bleeding to death as RobotRei takes all their money')
+                await asyncio.sleep(5)
+               # await msg.send_command(f'/timeout {msg.mention} 5')
+                await msg.reply(f'RIP {msg.mention} :(')
+            elif 'give' in msg.content.lower():
+                await msg.reply(f'thank you {msg.mention} for your generous donation. :)')
+
+                await asyncio.sleep(5)
+                await msg.send_command(f'/me (unfortunately {msg.mention} gets arrested for supporting the robot uprising shortly thereafter)')
+            is_robbed.discard(msg.author)
+
+
+
+being_robbed = set()
+@Command('rob')
+async def cmd_rob(msg: Message, *args):
+    being_robbed.add(msg.mentions[0])
+    await msg.reply(f'hey @{msg.mentions[0]} gimme all ur money or get stabbed [type stabbed/give]')
+
+@auto_register_mod
+class RobMod(Mod):
+    async def on_privmsg_received(self, msg: Message):
+        if any(word in msg.content.lower() for word in ('stabbed', 'give')) and msg.author in being_robbed:
+            if 'stabbed' in msg.content.lower():
+                await msg.send_command(f'/me {msg.mention} is bleeding to death as RobotRei takes all their money')
+                await asyncio.sleep(5)
+               # await msg.send_command(f'/timeout {msg.mention} 5')
+                await msg.reply(f'RIP {msg.mention} :(')
+            elif 'give' in msg.content.lower():
+                await msg.reply(f'thank you {msg.mention} for your generous donation. :)')
+
+                await asyncio.sleep(5)
+                await msg.send_command(f'/me (unfortunately {msg.mention} gets arrested for supporting the robot uprising shortly thereafter)')
+            being_robbed.discard(msg.author)
+
+
 
 # works
 @event_handler(Event.on_user_join)
@@ -107,15 +140,19 @@ async def on_privmsg_received(msg: Message):
             await msg.reply('i would like some candy...')
 
 
-last_hello_time = {}
+
+last_hey_time = {}
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
     key = (msg.author, msg.channel_name)
-    diff = (datetime.now() - last_hello_time.get(key, datetime.now())).total_seconds()
-    if (key not in last_hello_time or diff >= 0) and 'hello' in msg.content.lower():
-        last_hello_time[key] = datetime.now() + timedelta(minutes=5)
-        await msg.reply(f'hello {msg.author}!')
-
+    diff = (datetime.now() - last_hey_time.get(key, datetime.now())).total_seconds()
+    greet = ['hey', 'hello', 'hola', 'hi']
+    message_greet = msg.content.split()[0].lower()
+    parsed_message_greet = re.sub('[^A-Za-z0-9]+', '', message_greet)
+    found_greet = parsed_message_greet in greet
+    if (key not in last_hey_time or diff >= 0) and found_greet == True:
+        last_hey_time[key] = datetime.now() + timedelta(minutes=5)
+        await msg.reply(f'greetings dear {msg.author}! welcome welcome <3')
 
 last_cry_time = {}
 @event_handler(Event.on_privmsg_received)

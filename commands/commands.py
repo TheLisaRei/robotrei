@@ -106,6 +106,11 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply(f'{msg.mention} is gonna be lurking <3')
 
+@Command('hug')
+async def cmd_function(msg, *args):
+    print(msg.mentions)
+    await msg.reply(f'u have been hugged @{msg.mentions[0]}')
+
 
 # about
 @Command('age')
@@ -167,7 +172,7 @@ async def cmd_function(msg, *args):
 
 @Command('die')
 async def cmd_function(msg, *args):
-    await msg.reply('oh wow... u big meanie.... speechelsssss')
+    await msg.reply('oh wow... u big meanie.... speechlesssss')
 
 
 @Command('say')
