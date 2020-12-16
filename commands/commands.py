@@ -13,9 +13,13 @@ import datetime
 async def cmd_function(msg, *args):
     await msg.reply('currently i am reading about tropical crop production')
 
+@Command('song', aliases=['music'])
+async def cmd_function(msg, *args):
+    await msg.reply('currently playing this: https://youtu.be/SKNCfiLZigI')
+
 @Command('today')
 async def cmd_function(msg, *args):
-    await msg.reply('today i am studying for my exams, starting w tropical crop production. might see my mom today for dinner')
+    await msg.reply('today i am studying for my exams, starting w tropical crop production. might drop out and start mugging people, would u watch me if i were a crime livestreaming channel?')
 
 @Command('theend')
 async def cmd_function(msg, *args):
@@ -51,6 +55,10 @@ async def cmd_function(msg, *args):
 @Command('panic')
 async def cmd_function(msg, *args):
     await msg.reply('AAAAAAAAAAAAAAAAAAAAAAA')
+
+@Command('mom')
+async def cmd_function(msg, *args):
+    await msg.reply('sorry guys this is my mom calling so i have to pick up so ill mute myself. shouldnt take toooo long.')
 
 
 @Command('bye')
@@ -141,11 +149,11 @@ async def cmd_function(msg, *args):
     await msg.reply('im doing an MScEng in agricultural economics and international development')
 
 # bot feedback
-@Command('goodbot')
+@Command('goodbot', aliases=['goodrobot', 'good'])
 async def cmd_function(msg, *args):
     await msg.reply(f'awww thank u {msg.mention} i am glad u like me')
 
-@Command('badbot')
+@Command('badbot', aliases=['badrobot', 'bad'])
 async def cmd_function(msg, *args):
     await msg.reply(f'wow..... {msg.mention} i have feelings too you know... u try being a bot.... its not so easy')
 
@@ -156,6 +164,11 @@ async def cmd_function(msg, *args):
 @Command('sorry')
 async def cmd_function(msg, *args):
     await msg.reply(f'hmmm i dont know if i forgive you... robots never forgive or forget')
+
+@Command('die')
+async def cmd_function(msg, *args):
+    await msg.reply('oh wow... u big meanie.... speechelsssss')
+
 
 @Command('say')
 async def cmd_say(msg, *args):
