@@ -7,7 +7,7 @@ import asyncio
 
 # love by itself
 self_is_lover = set()
-@Command('love')
+@Command('lover')
 async def cmd_love(msg: Message, *args):
     is_lover.add(msg.author)
     await msg.reply('do you love me? [type yes/no/maybe]')
@@ -67,7 +67,7 @@ class RobotMod(Mod):
 # robot by mention
 tagged_is_robotist = set()
 
-@Command('robot')
+@Command('robotq')
 async def cmd_robot(msg: Message, *args):
     is_robotist.add(msg.mentions[0])
     await msg.reply(f'hmmm so @{msg.mentions[0]}... do robots deserve equal rights? [type yes/no]')
