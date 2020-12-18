@@ -6,14 +6,14 @@ import re
 import asyncio
 
 # love by itself
-self_is_lover = set()
+is_lover = set()
 @Command('lover')
-async def cmd_love(msg: Message, *args):
+async def cmd_lover(msg: Message, *args):
     is_lover.add(msg.author)
     await msg.reply('do you love me? [type yes/no/maybe]')
 
 @auto_register_mod
-class LoveMod(Mod):
+class LoverMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('yes', 'no', 'maybe')) and msg.author in is_lover:
             if 'no' in msg.content.lower():
@@ -33,7 +33,7 @@ async def cmd_love(msg: Message, *args):
     await msg.reply(f'hey @{msg.mentions[0]} i have a question... ummm... do you love me? [type yes/no/maybe]')
 
 @auto_register_mod
-class TaggedLoveMod(Mod):
+class LoveMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('yes', 'no', 'maybe')) and msg.author in tagged_is_lover:
             if 'no' in msg.content.lower():
@@ -53,7 +53,6 @@ async def cmd_robot(msg: Message, *args):
     is_robotist.add(msg.author)
     await msg.reply('do robots deserve equal rights? [type yes/no]')
 
-
 @auto_register_mod
 class RobotMod(Mod):
     async def on_privmsg_received(self, msg: Message):
@@ -68,13 +67,13 @@ class RobotMod(Mod):
 tagged_is_robotist = set()
 
 @Command('robotq')
-async def cmd_robot(msg: Message, *args):
-    is_robotist.add(msg.mentions[0])
+async def cmd_robotq(msg: Message, *args):
+    tagged_is_robotist.add(msg.mentions[0])
     await msg.reply(f'hmmm so @{msg.mentions[0]}... do robots deserve equal rights? [type yes/no]')
 
 
 @auto_register_mod
-class TaggedRobotMod(Mod):
+class RobotqMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('yes', 'no')) and msg.author in tagged_is_robotist:
             if 'no' in msg.content.lower():
@@ -115,7 +114,7 @@ async def cmd_rob(msg: Message, *args):
     await msg.reply(f'hey @{msg.mentions[0]} gimme all ur money or get stabbed [type stabbed/give]')
 
 @auto_register_mod
-class TaggedRobMod(Mod):
+class RobMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('stabbed', 'give')) and msg.author in being_robbed:
             if 'stabbed' in msg.content.lower():
@@ -179,7 +178,7 @@ async def on_privmsg_received(msg: Message):
             await msg.reply('i would like some candy...')
 
 
-
+# hellos and all - write different ones to cycle thru
 last_hey_time = {}
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
