@@ -11,15 +11,23 @@ import datetime
 # change each stream
 @Command('text', aliases=['reading'])
 async def cmd_function(msg, *args):
-    await msg.reply('currently i am reading about tropical crop production')
+    await msg.reply('currently i am writing about water management policies, the aral sea disaster and the role of women in water management in central asia')
 
 @Command('song', aliases=['music'])
 async def cmd_function(msg, *args):
-    await msg.reply('currently playing this: https://youtu.be/SKNCfiLZigI')
+    await msg.reply('currently playing this: https://www.youtube.com/watch?v=OVPPOwMpSpQ')
 
 @Command('today')
 async def cmd_function(msg, *args):
-    await msg.reply('today i am studying for my exams, starting w tropical crop production. might drop out and start mugging people, would u watch me if i were a crime livestreaming channel?')
+    await msg.reply('today i am writing my essay, more about that under !text. also im eating breakfast and then gonna be playing eve')
+
+@Command('tea')
+async def cmd_function(msg, *args):
+    await msg.reply('vanilla rooibos tea!')
+
+@Command('amazon')
+async def cmd_function(msg, *args):
+    await msg.reply('amazon is a terrible company')
 
 @Command('theend')
 async def cmd_function(msg, *args):
@@ -49,6 +57,10 @@ async def cmd_function(msg, *args):
 @Command('twitter', aliases=['t', 'bird'])
 async def cmd_function(msg, *args):
     await msg.reply('follow me on twitter https://twitter.com/lisareistudy')
+
+@Command('instagram', aliases=['i', 'insta', 'ig'])
+async def cmd_function(msg, *args):
+    await msg.reply('my insta is: https://www.instagram.com/thelisarei/')
 
 # basics
 
@@ -174,6 +186,9 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('oh wow... u big meanie.... speechlesssss')
 
+@Command('daddy')
+async def cmd_function(msg, *args):
+    await msg.reply(f'my daddy is https://github.com/sharkbound/PythonTwitchBotFramework but who is your daddy??? {msg.mention}')
 
 @Command('say')
 async def cmd_say(msg, *args):

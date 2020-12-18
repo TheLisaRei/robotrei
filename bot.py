@@ -112,7 +112,7 @@ async def on_channel_subscription(subscriber: str, channel: Channel, msg: Messag
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
     if 'Thank you for following' in msg.content:
-        await msg.reply('yes yes thank u for following! <3 i am the bot of this channel, my name is RobotRei')
+        await msg.reply('yes yes thank u for following! <3 i am the !bot of this channel')
 
 @event_handler(Event.on_bits_donated)
 async def on_bits_donated(self, msg: Message, bits: int):
