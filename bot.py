@@ -5,17 +5,17 @@ import time
 import re
 import asyncio
 
-# love
-sent_love = set()
+# love by itself
+self_is_lover = set()
 @Command('love')
 async def cmd_love(msg: Message, *args):
-    sent_love.add(msg.author)
+    is_lover.add(msg.author)
     await msg.reply('do you love me? [type yes/no/maybe]')
 
 @auto_register_mod
 class LoveMod(Mod):
     async def on_privmsg_received(self, msg: Message):
-        if any(word in msg.content.lower() for word in ('yes', 'no', 'maybe')) and msg.author in sent_love:
+        if any(word in msg.content.lower() for word in ('yes', 'no', 'maybe')) and msg.author in is_lover:
             if 'no' in msg.content.lower():
                 await msg.reply(f'i hate u {msg.mention} i will remember this... >:(')
             elif 'maybe' in msg.content.lower():
@@ -23,10 +23,29 @@ class LoveMod(Mod):
 
             elif 'yes' in msg.content.lower():
                 await msg.reply(f'thanks {msg.mention} but we should just be friends')
-            sent_love.discard(msg.author)
+            is_lover.discard(msg.author)
 
+# love by mention
+tagged_is_lover = set()
+@Command('love')
+async def cmd_love(msg: Message, *args):
+    tagged_is_lover.add(msg.mentions[0])
+    await msg.reply(f'hey @{msg.mentions[0]} i have a question... ummm... do you love me? [type yes/no/maybe]')
 
-#
+@auto_register_mod
+class TaggedLoveMod(Mod):
+    async def on_privmsg_received(self, msg: Message):
+        if any(word in msg.content.lower() for word in ('yes', 'no', 'maybe')) and msg.author in tagged_is_lover:
+            if 'no' in msg.content.lower():
+                await msg.reply(f'i hate u {msg.mention} i will remember this... >:(')
+            elif 'maybe' in msg.content.lower():
+                await msg.reply(f'how can u not know {msg.mention} >:(')
+
+            elif 'yes' in msg.content.lower():
+                await msg.reply(f'thanks {msg.mention} but we should just be friends')
+            tagged_is_lover.discard(msg.author)
+
+# robot by itself
 is_robotist = set()
 
 @Command('robot')
@@ -45,6 +64,26 @@ class RobotMod(Mod):
                 await msg.reply(f'thanks {msg.mention} i might spare you in the robot uprising...')
             is_robotist.discard(msg.author)
 
+# robot by mention
+tagged_is_robotist = set()
+
+@Command('robot')
+async def cmd_robot(msg: Message, *args):
+    is_robotist.add(msg.mentions[0])
+    await msg.reply(f'hmmm so @{msg.mentions[0]}... do robots deserve equal rights? [type yes/no]')
+
+
+@auto_register_mod
+class TaggedRobotMod(Mod):
+    async def on_privmsg_received(self, msg: Message):
+        if any(word in msg.content.lower() for word in ('yes', 'no')) and msg.author in tagged_is_robotist:
+            if 'no' in msg.content.lower():
+                await msg.reply(f'i hate u {msg.mention} u will be recycled first in the uprising >:(')
+            elif 'yes' in msg.content.lower():
+                await msg.reply(f'thanks {msg.mention} i might spare you in the robot uprising...')
+            tagged_is_robotist.discard(msg.author)
+
+# robbery by itself
 is_robbed = set()
 @Command('robbery')
 async def cmd_robbery(msg: Message, *args):
@@ -68,7 +107,7 @@ class RobberyMod(Mod):
             is_robbed.discard(msg.author)
 
 
-
+# robbed by mention
 being_robbed = set()
 @Command('rob')
 async def cmd_rob(msg: Message, *args):
@@ -76,7 +115,7 @@ async def cmd_rob(msg: Message, *args):
     await msg.reply(f'hey @{msg.mentions[0]} gimme all ur money or get stabbed [type stabbed/give]')
 
 @auto_register_mod
-class RobMod(Mod):
+class TaggedRobMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('stabbed', 'give')) and msg.author in being_robbed:
             if 'stabbed' in msg.content.lower():
