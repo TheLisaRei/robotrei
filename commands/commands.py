@@ -1,4 +1,4 @@
-from jsonhandler import FileIO
+
 from twitchbot import Command, DummyCommand, SubCommand, CustomCommand
 from twitchbot import auto_register_mod
 import json
