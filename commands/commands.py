@@ -3,10 +3,21 @@ from twitchbot import Command, DummyCommand, SubCommand, CustomCommand
 from twitchbot import auto_register_mod
 import json
 import datetime
+import random
 
 
 # data = json.load(open('customcommands.json', 'r'))
 # print(data)
+
+@Command('joke')
+async def cmd_function(msg, *args):
+    await msg.reply(joke_options(msg))
+
+def joke_options(msg):
+    jokes = ['Why are skeletons so calm? Because nothing gets under their skin.',
+             'What do you call someone with no nose? Nobody knows.',
+             'I used to work for a soft drink can crusher. It was soda pressing.']
+    return random.choice(jokes)
 
 # change each stream
 @Command('text', aliases=['reading'])
@@ -62,15 +73,22 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('my insta is: https://www.instagram.com/thelisarei/')
 
+@Command('donate', aliases=['paypal', 'tip', 'money'])
+async def cmd_function(msg, *args):
+    await msg.reply('please sir may i have some money *shakes cup* https://streamlabs.com/lisarei/tip')
+
 # basics
 
 @Command('panic')
 async def cmd_function(msg, *args):
     await msg.reply('AAAAAAAAAAAAAAAAAAAAAAA')
 
+
 @Command('mom')
 async def cmd_function(msg, *args):
-    await msg.reply('sorry guys this is my mom calling so i have to pick up so ill mute myself. shouldnt take toooo long.')
+    allowed_users = {'lisarei'}
+    if msg.author in allowed_users:
+        await msg.reply('sorry guys this is my mom calling so i have to pick up so ill mute myself. shouldnt take toooo long.')
 
 
 @Command('bye')
@@ -123,6 +141,15 @@ async def cmd_function(msg, *args):
     print(msg.mentions)
     await msg.reply(f'u have been hugged @{msg.mentions[0]}')
 
+@Command('thankyou', aliases=['thnx', 'ty'])
+async def cmd_function(msg, *args):
+    print(msg.mentions)
+    await msg.reply(f'shoutout to @{msg.mentions[0]} thank u!!! <3 i love u')
+
+@Command('streamershoutout', aliases=['streamer', 'ss'])
+async def cmd_function(msg, *args):
+    print(msg.mentions)
+    await msg.reply(f'shoutout to @{msg.mentions[0]} who is also a streamer!! go follow them')
 
 # about
 @Command('age')

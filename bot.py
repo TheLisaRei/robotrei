@@ -4,16 +4,17 @@ from datetime import datetime, timedelta
 import time
 import re
 import asyncio
+import random
 
 # love by itself
 is_lover = set()
-@Command('lover')
+@Command('love')
 async def cmd_lover(msg: Message, *args):
     is_lover.add(msg.author)
     await msg.reply('do you love me? [type yes/no/maybe]')
 
 @auto_register_mod
-class LoverMod(Mod):
+class LoveMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('yes', 'no', 'maybe')) and msg.author in is_lover:
             if 'no' in msg.content.lower():
@@ -27,13 +28,17 @@ class LoverMod(Mod):
 
 # love by mention
 tagged_is_lover = set()
-@Command('love')
+@Command('taglove')
 async def cmd_love(msg: Message, *args):
+    if len(msg.mentions) == 0:
+
+        await msg.reply(f' u gotta tag someone {msg.author}!! its called !taglove for a reason')
+        return
     tagged_is_lover.add(msg.mentions[0].lower())
     await msg.reply(f'hey @{msg.mentions[0]} i have a question... ummm... do you love me? [type yes/no/maybe]')
 
 @auto_register_mod
-class LoveMod(Mod):
+class TagloveMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('yes', 'no', 'maybe')) and msg.author in tagged_is_lover:
             if 'no' in msg.content.lower():
@@ -106,7 +111,7 @@ class RobberyMod(Mod):
             is_robbed.discard(msg.author)
 
 
-# robbed by mention
+# robbed by mention - MAKE A FIGHT OPTION
 being_robbed = set()
 @Command('rob')
 async def cmd_rob(msg: Message, *args):
@@ -131,6 +136,71 @@ class RobMod(Mod):
                 await msg.send_command(f'/me (unfortunately {msg.mention} gets arrested for supporting the robot uprising shortly thereafter)')
             being_robbed.discard(msg.author)
 
+# new question based terror
+
+is_wise = set()
+@Command('wisdom')
+async def cmd_wisdom(msg: Message, *args):
+    is_wise.add(msg.author)
+    await msg.reply(f'Oh no {msg.mention}, you were walking down the street you saw a black cat run across the road, do you turn back or keep walking? [type turn/walk]')
+
+@auto_register_mod
+class WisdomMod(Mod):
+    async def on_privmsg_received(self, msg: Message):
+        if any(word in msg.content.lower() for word in ('turn', 'walk')) and msg.author in is_wise:
+            if 'turn' in msg.content.lower():
+                await msg.reply(turn_options(msg))
+
+            elif 'walk' in msg.content.lower():
+                await msg.reply(walk_options(msg))
+
+            is_wise.discard(msg.author)
+
+
+def turn_options(msg):
+    turn_outcomes = [f'wise choice, {msg.mention}, young one.... you turn without looking and you get hit by a bus u did not see coming. such is fate',
+                     f'ohh you are turning back, wise choice {msg.mention}, you were able to escape your fate... for now...',
+                     f'only cowards try to escape their destiny, {msg.mention}... you become a citizen of france as your punishment. now you are home. go eat a baguette frogman',
+                     f'hmmmm so you are choosing to follow the devils path, it leads you to a woman in the park, she offers you something... you are led astray {msg.mention} ... you wake up 4 months later with a meth addiction']
+    return random.choice(turn_outcomes)
+
+
+def walk_options(msg):
+    walk_outcomes = [f'mmm a brave soul... too brave. a grand piano falls on you from the heavens above and you are smashed into the pavement, rest in peace meat goo {msg.mention}',
+                     f'oh dear oh dear did you not see the cat? you trip over the poor feline and fall into wet concrete, {msg.mention}, what a day...',
+                     f'these boots are made for walking and walking is what they will do... {msg.mention} you become a street walker for the night. your price is set at $20, enjoy',
+                     f'ooo nice choice {msg.mention}, black cats actually bring luck. u find a 5 dollar bill and buy a strawberry jam donut']
+    return random.choice(walk_outcomes)
+
+# shame
+
+is_shameful = set()
+@Command('shame')
+async def cmd_shame(msg: Message, *args):
+    is_shameful.add(msg.author)
+    await msg.reply(f'do you repent your sins? {msg.mention} [type yes/no]')
+
+@auto_register_mod
+class ShameMod(Mod):
+    async def on_privmsg_received(self, msg: Message):
+        if any(word in msg.content.lower() for word in ('yes', 'no')) and msg.author in is_shameful:
+            if 'yes' in msg.content.lower():
+                await msg.reply(yes_options(msg))
+
+            elif 'no' in msg.content.lower():
+                await msg.reply(no_options(msg))
+
+            is_shameful.discard(msg.author)
+
+def yes_options(msg):
+    yes_outcomes = [f'you have repented for your sins, but that means that you have accepted responsibility for them {msg.mention}... you have opened yourself to a lawsuit',
+                    f'its nice to meet a true child of god {msg.mention}... <3 bless u']
+    return random.choice(yes_outcomes)
+
+def no_options(msg):
+    no_outcomes = [f'you are a dammed liar {msg.mention} and a sinner too',
+                   f'unrepentant.. the devil lives inside you {msg.mention}... but i kinda like that, you have some coke btw?? i just *sniff sniff* need a pick me up']
+    return random.choice(no_outcomes)
 
 
 # works
@@ -179,6 +249,45 @@ async def on_privmsg_received(msg: Message):
             lastCandyTime = currentTime
             await msg.reply('i would like some candy...')
 
+# france bullying
+lastFrogTime = datetime.min
+@event_handler(Event.on_privmsg_received)
+async def on_privmsg_received(msg: Message):
+    frog = ['france', 'french', 'frog', 'paris']
+    if any(word in msg.content for word in frog):
+        global lastFrogTime
+        currentTime = datetime.now()
+        allowedTime = lastFrogTime + timedelta(seconds=60)
+        print(currentTime > allowedTime)
+        if currentTime > allowedTime:
+            lastFrogTime = currentTime
+            await msg.reply(frog_options(msg))
+
+def frog_options(msg):
+    frog_hate = ['Why do French People eat snails? ...because they dont like fast food!',
+                 ' Did you hear about the brave Frenchman? ... Oh you didnt? Well dont feel bad no one else has either',
+                 'What do French recruits learn in basic training? ...how to surrender in 17 different languages.',
+'']
+    return random.choice(frog_hate)
+
+# eve online bullying UNFINISHED
+lastEveTime = datetime.min
+# @event_handler(Event.on_privmsg_received)
+async def on_privmsg_received(msg: Message):
+    eve_words = ['ship', 'caldari', 'gallente', 'isk']
+    if any(word in msg.content for word in eve_words):
+        global lastEveTime
+        currentTime = datetime.now()
+        allowedTime = lastEveTime + timedelta(seconds=60)
+        print(currentTime > allowedTime)
+        if currentTime > allowedTime:
+            lastEveTime = currentTime
+            await msg.reply(eve_options(msg))
+
+def eve_options(msg):
+    eve_reactions = ['option1', 'option2']
+    return random.choice(eve_reactions)
+
 
 # hellos and all - write different ones to cycle thru
 last_hey_time = {}
@@ -192,7 +301,12 @@ async def on_privmsg_received(msg: Message):
     found_greet = parsed_message_greet in greet
     if (key not in last_hey_time or diff >= 0) and found_greet == True:
         last_hey_time[key] = datetime.now() + timedelta(minutes=5)
-        await msg.reply(f'greetings dear {msg.author}! welcome welcome <3')
+        await msg.reply(hello_response(msg))
+
+
+def hello_response(msg):
+    hello_options = [f'greetings dear {msg.author}! welcome welcome <3', f'hello {msg.author}! long time no see', f'hey hey {msg.author}! hows life? ', f' hola amigo {msg.author}!' ]
+    return random.choice(hello_options)
 
 last_cry_time = {}
 @event_handler(Event.on_privmsg_received)
