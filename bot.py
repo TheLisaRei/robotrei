@@ -29,7 +29,7 @@ class LoverMod(Mod):
 tagged_is_lover = set()
 @Command('love')
 async def cmd_love(msg: Message, *args):
-    tagged_is_lover.add(msg.mentions[0])
+    tagged_is_lover.add(msg.mentions[0].lower())
     await msg.reply(f'hey @{msg.mentions[0]} i have a question... ummm... do you love me? [type yes/no/maybe]')
 
 @auto_register_mod
@@ -68,7 +68,7 @@ tagged_is_robotist = set()
 
 @Command('robotq')
 async def cmd_robotq(msg: Message, *args):
-    tagged_is_robotist.add(msg.mentions[0])
+    tagged_is_robotist.add(msg.mentions[0].lower())
     await msg.reply(f'hmmm so @{msg.mentions[0]}... do robots deserve equal rights? [type yes/no]')
 
 
@@ -110,13 +110,15 @@ class RobberyMod(Mod):
 being_robbed = set()
 @Command('rob')
 async def cmd_rob(msg: Message, *args):
-    being_robbed.add(msg.mentions[0])
+    being_robbed.add(msg.mentions[0].lower())
     await msg.reply(f'hey @{msg.mentions[0]} gimme all ur money or get stabbed [type stabbed/give]')
 
 @auto_register_mod
 class RobMod(Mod):
     async def on_privmsg_received(self, msg: Message):
-        if any(word in msg.content.lower() for word in ('stabbed', 'give')) and msg.author in being_robbed:
+         # import ipdb
+         # ipdb.set_trace()
+         if any(word in msg.content.lower() for word in ('stabbed', 'give')) and msg.author in being_robbed:
             if 'stabbed' in msg.content.lower():
                 await msg.send_command(f'/me {msg.mention} is bleeding to death as RobotRei takes all their money')
                 await asyncio.sleep(5)
