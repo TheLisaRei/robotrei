@@ -10,7 +10,9 @@
   },
   "global": {
     "name": "global",
-    "permissions": [],
+    "permissions": [
+      "vote"
+    ],
     "members": []
   }
 }

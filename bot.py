@@ -1,3 +1,4 @@
+# DO NOT TOUCH THIS
 from twitchbot import BaseBot, load_commands_from_directory
 from twitchbot import event_handler, Command, Event, Message, Channel, Mod, PollData,  auto_register_mod
 from datetime import datetime, timedelta
@@ -5,6 +6,8 @@ import time
 import re
 import asyncio
 import random
+
+# MORE COMPLICATED COMMANDS, EASY ONES GO TO THE COMMANDS FILE
 
 # love by itself
 is_lover = set()
@@ -76,7 +79,6 @@ async def cmd_robotq(msg: Message, *args):
     tagged_is_robotist.add(msg.mentions[0].lower())
     await msg.reply(f'hmmm so @{msg.mentions[0]}... do robots deserve equal rights? [type yes/no]')
 
-
 @auto_register_mod
 class RobotqMod(Mod):
     async def on_privmsg_received(self, msg: Message):
@@ -87,19 +89,19 @@ class RobotqMod(Mod):
                 await msg.reply(f'thanks {msg.mention} i might spare you in the robot uprising...')
             tagged_is_robotist.discard(msg.author)
 
-# robbery by itself
+# robbery by itself added fight
 is_robbed = set()
 @Command('robbery')
 async def cmd_robbery(msg: Message, *args):
     is_robbed.add(msg.author)
-    await msg.reply('gimme all ur money or get stabbed [type stabbed/give]')
+    await msg.reply('gimme all ur money or get stabbed [type stabbed/give/fight]')
 
 @auto_register_mod
 class RobberyMod(Mod):
     async def on_privmsg_received(self, msg: Message):
-        if any(word in msg.content.lower() for word in ('stabbed', 'give')) and msg.author in is_robbed:
+        if any(word in msg.content.lower() for word in ('stabbed', 'give', 'fight')) and msg.author in is_robbed:
             if 'stabbed' in msg.content.lower():
-                await msg.send_command(f'/me {msg.mention} is bleeding to death as RobotRei takes all their money')
+                await msg.send_command(f'/me stab stab stab lol.. gave up so easy {msg.mention} is bleeding to death as RobotRei takes all their money')
                 await asyncio.sleep(5)
                # await msg.send_command(f'/timeout {msg.mention} 5')
                 await msg.reply(f'RIP {msg.mention} :(')
@@ -108,22 +110,36 @@ class RobberyMod(Mod):
 
                 await asyncio.sleep(5)
                 await msg.send_command(f'/me (unfortunately {msg.mention} gets arrested for supporting the robot uprising shortly thereafter)')
+
+            elif 'fight' in msg.content.lower():
+                await msg.reply(fight_options(msg))
+                await asyncio.sleep(5)
+                await msg.send_command(f'/me {msg.mention} is bleeding to death as RobotRei takes all their money anyway')
+                await asyncio.sleep(5)
+                await msg.reply(f'RIP {msg.mention} :(')
+
+
             is_robbed.discard(msg.author)
 
+def fight_options(msg):
+    fight_outcomes = [f'ohh {msg.mention} you are a brave soul... i will still stab u but w respect. a true warriors death.',
+                      f' uuu a karate master {msg.mention}, chop chop... u are a no match for a knife.. stab stab.. goodnight',
+                      f' hehe {msg.mention} u are overestimating ur abilities... ohh a KNIFE?? lord... would be trouble for me... if i didnt have this GUN... bang BANG byeeee']
+    return random.choice(fight_outcomes)
 
-# robbed by mention - MAKE A FIGHT OPTION
+# robbed by mention - added fight
 being_robbed = set()
 @Command('rob')
 async def cmd_rob(msg: Message, *args):
     being_robbed.add(msg.mentions[0].lower())
-    await msg.reply(f'hey @{msg.mentions[0]} gimme all ur money or get stabbed [type stabbed/give]')
+    await msg.reply(f'hey @{msg.mentions[0]} gimme all ur money or get stabbed [type stabbed/give/fight]')
 
 @auto_register_mod
 class RobMod(Mod):
     async def on_privmsg_received(self, msg: Message):
          # import ipdb
          # ipdb.set_trace()
-         if any(word in msg.content.lower() for word in ('stabbed', 'give')) and msg.author in being_robbed:
+         if any(word in msg.content.lower() for word in ('stabbed', 'give', 'fight')) and msg.author in being_robbed:
             if 'stabbed' in msg.content.lower():
                 await msg.send_command(f'/me {msg.mention} is bleeding to death as RobotRei takes all their money')
                 await asyncio.sleep(5)
@@ -134,8 +150,21 @@ class RobMod(Mod):
 
                 await asyncio.sleep(5)
                 await msg.send_command(f'/me (unfortunately {msg.mention} gets arrested for supporting the robot uprising shortly thereafter)')
+
+            elif 'fight' in msg.content.lower():
+                await msg.reply(fight_options(msg))
+                await asyncio.sleep(5)
+                await msg.send_command(
+                    f'/me {msg.mention} is bleeding to death as RobotRei takes all their money anyway')
+                await asyncio.sleep(5)
+                await msg.reply(f'RIP {msg.mention} :(')
             being_robbed.discard(msg.author)
 
+def fight_options(msg):
+    fight_outcomes = [f'ohh {msg.mention} you are a brave soul... i will still stab u but w respect. a true warriors death.',
+                      f' uuu a karate master {msg.mention}, chop chop... u are a no match for a knife.. stab stab.. goodnight',
+                      f' hehe {msg.mention} u are overestimating ur abilities... ohh a KNIFE?? lord... would be trouble for me... if i didnt have this GUN... bang BANG byeeee']
+    return random.choice(fight_outcomes)
 # new question based terror
 
 is_wise = set()
@@ -228,9 +257,12 @@ class SoulmateMod(Mod):
 
 def girl_options(msg):
     girl_outcomes = [f'mmm {msg.mention}, the crystal ball tells me your soulmate is mmmmmm ohh yess i see BROWN EYES... beautiful brown eyes...',
-                    f'ohh {msg.mention} you are so lucky she is incredibly SMART, a true intellectual... you might meet at a library actually',
+                    f'ohh {msg.mention} you are so lucky she is incredibly SMART, a true intellectual... you might meet at a conference on AI actually',
                      f'so {msg.mention} u want to know something about ur soulmate hmm? well my crystal ball is on strike today but my intuition tells me you will meet her before the year ends',
-                     f'i see i see that you will find true love!! {msg.mention} but you will lose her bc u forget to cherish her every day!! but now that i have told u the secret.. you must change your fate!!']
+                     f'i see i see that you will find true love!! {msg.mention} but you will lose her bc u forget to cherish her every day!! but now that i have told u the secret.. you must change your fate!!',
+                     f'hmm {msg.mention} the devil whispered in my ear that your true love is Rosalie from Twilight... how embarassing.. do you havew a vampire fetish or something??? shes not even real',
+                     f'see the angels dont want me to tell you who your soulmate is.. {msg.mention} but i can tell you who your divorce attorney will be!! its Greenhill & partners in Rochester, NY... do w that what u will. she will be awarded full custody of ur parrot... beware',
+                     f' oh no {msg.mention}, your soulmate was that girl u saw on the subway in 2014... you will never meet her again']
     return random.choice(girl_outcomes)
 
 def boy_options(msg):
@@ -270,8 +302,6 @@ async def on_bits_donated(self, msg: Message, bits: int):
 
 # initialize the variable
 lastCandyTime = datetime.min
-
-
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
     if 'candy' in msg.content:
@@ -287,39 +317,45 @@ async def on_privmsg_received(msg: Message):
             lastCandyTime = currentTime
             await msg.reply('i would like some candy...')
 
-# france bullying
+# add content
 lastFrogTime = datetime.min
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
-    frog = ['france', 'french', 'frog', 'paris']
-    if any(word in msg.content for word in frog):
-        global lastFrogTime
-        currentTime = datetime.now()
-        allowedTime = lastFrogTime + timedelta(seconds=60)
-        print(currentTime > allowedTime)
-        if currentTime > allowedTime:
-            lastFrogTime = currentTime
+    frog_words = ['france', 'french', 'paris', 'baguette']
+    message_frog_words = [w.lower() for w in msg.content.split()]
+    for frog_w in message_frog_words:
+        if frog_w in frog_words:
+
+            global lastFrogTime
+            currentTime = datetime.now()
+            allowedTime = lastFrogTime + timedelta(seconds=300)
+
+            if currentTime > allowedTime:
+                lastFrogTime = currentTime
             await msg.reply(frog_options(msg))
 
 def frog_options(msg):
-    frog_hate = ['Why do French People eat snails? ...because they dont like fast food!',
+    frog_reactions = ['Why do French People eat snails? ...because they dont like fast food!',
                  ' Did you hear about the brave Frenchman? ... Oh you didnt? Well dont feel bad no one else has either',
-                 'What do French recruits learn in basic training? ...how to surrender in 17 different languages.',
-'']
-    return random.choice(frog_hate)
+                 'What do French recruits learn in basic training? ...how to surrender in 17 different languages.']
+    return random.choice(frog_reactions)
 
-# eve online bullying UNFINISHED
+
+# eve online begging UNFINISHED
 lastEveTime = datetime.min
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
-    eve_words = ['ship', 'isk', 'eve']
-    if any(word in msg.content for word in eve_words):
-        global lastEveTime
-        currentTime = datetime.now()
-        allowedTime = lastEveTime + timedelta(seconds=300)
-        print(currentTime > allowedTime)
-        if currentTime > allowedTime:
-            lastEveTime = currentTime
+    eve_words = ['caldari', 'isk', 'eve']
+    message_eve_words = [w.lower() for w in msg.content.split()]
+    for eve_w in message_eve_words:
+        if eve_w in eve_words:
+
+            global lastEveTime
+            currentTime = datetime.now()
+            allowedTime = lastEveTime + timedelta(seconds=300)
+
+            if currentTime > allowedTime:
+                lastEveTime = currentTime
             await msg.reply(eve_options(msg))
 
 def eve_options(msg):
@@ -363,7 +399,7 @@ async def on_privmsg_received(msg: Message):
 def hello_response(msg):
     hello_options = [f'greetings dear {msg.author}! welcome welcome <3', f'hello {msg.author}! long time no see', f'hey hey {msg.author}! hows life? ', f' hola amigo {msg.author}!' ]
     return random.choice(hello_options)
-
+# crying
 last_cry_time = {}
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
@@ -373,7 +409,7 @@ async def on_privmsg_received(msg: Message):
         last_cry_time[key] = datetime.now() + timedelta(minutes=2)
         await msg.reply(f'WWWWAAAAAAHHHHHHHHHHHHHHHHH {msg.mention} is a crybaby')
 
-
+# hungry
 last_hungry_time = {}
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
@@ -382,7 +418,7 @@ async def on_privmsg_received(msg: Message):
     if (key not in last_hungry_time or diff >= 0) and ('hungry') in msg.content.lower():
         last_hungry_time[key] = datetime.now() + timedelta(minutes=2)
         await msg.reply(f'well why dont u eat something {msg.mention}?')
-
+# hangry
 last_hangry_time = {}
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
@@ -392,7 +428,7 @@ async def on_privmsg_received(msg: Message):
         last_hangry_time[key] = datetime.now() + timedelta(minutes=2)
         await msg.reply(f'well if u ate something {msg.mention} u would stop being agro...')
 
-
+# brb
 last_brb_time = {}
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
@@ -401,6 +437,9 @@ async def on_privmsg_received(msg: Message):
     if (key not in last_brb_time or diff >= 0) and ('brb') in msg.content.lower():
         last_brb_time[key] = datetime.now() + timedelta(minutes=2)
         await msg.reply(f'ok {msg.mention} u will be missed dearly pls come back when u can we love u here')
+
+
+# DO NOT TOUCH THIS EVER
 if __name__ == '__main__':
     load_commands_from_directory('./commands')
     BaseBot().run()

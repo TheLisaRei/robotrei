@@ -6,20 +6,23 @@ import datetime
 import random
 from urllib.request import urlopen
 import json
-
+import asyncio
 
 
 
 # data = json.load(open('customcommands.json', 'r'))
 # print(data)
 
-@Command('joke')
+# add new jokes these suck
+@Command('joke', aliases=['jokes'])
 async def cmd_function(msg, *args):
     await msg.reply(joke_options(msg))
 
 def joke_options(msg):
     jokes = ['Why are skeletons so calm? Because nothing gets under their skin.',
              'What do you call someone with no nose? Nobody knows.',
+             'Wanna see some python??... add me on snapchat',
+             'Why do people In Prague dont pay restaurants with credit card ? Because they only use Czechs',
              'I used to work for a soft drink can crusher. It was soda pressing.']
     return random.choice(jokes)
 
@@ -54,6 +57,7 @@ def fortune_options(msg):
 async def cmd_function(msg, *args):
     await msg.reply('currently i am writing about water management policies, the aral sea disaster and the role of women in water management in central asia')
 
+# maybe remove i cant be bothered to change em manually
 @Command('song', aliases=['music'])
 async def cmd_function(msg, *args):
     await msg.reply('currently playing this: https://www.youtube.com/watch?v=OVPPOwMpSpQ')
@@ -62,10 +66,21 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('today i am writing my essay, more about that under !text. might do more python later too')
 
+# changing variable
 @Command('bitcoin', aliases=['bit', 'b'])
 async def cmd_function(msg, *args):
-    btc_price = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?btcusd').read())['result'][0]['last_price']
-    await msg.reply(f'the current price of bitcoin is: ${btc_price} also btw u can donate in bitcoin 0:) address in description lol')
+    btc_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?btcusd').read())['result'][0]['last_price']
+   # btc_price_euro = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?btcusd').read())['result'][0]['last_price']
+    await msg.reply(f'the current price of bitcoin is: ${btc_price_usd}')
+    await asyncio.sleep(5)
+    await msg.reply(f'while we are talking about bitcoin... u can donate in btc actually, 13AxggqBeq8ajcpCHbymfZRyyqUKzk39qi .. im sure a smart handsome bitcoin lover like u has some to spare... did i say u are very handsome {msg.mention}?? the most handsome... <3')
+
+@Command('ethereum', aliases=['eth'])
+async def cmd_function(msg, *args):
+    eth_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?ethusd').read())['result'][1]['last_price']
+    await msg.reply(f'the current price of ethereum is: ${eth_price_usd}')
+
+
 
 @Command('tea')
 async def cmd_function(msg, *args):
@@ -87,6 +102,10 @@ async def cmd_function(msg, *args):
 @Command('github', aliases=['gb', 'git'])
 async def cmd_function(msg, *args):
     await msg.reply('come bully me at https://github.com/lisareina/robotrei')
+
+@Command('cleancode', aliases=['cc', 'cleancoderules', 'coderules'])
+async def cmd_function(msg, *args):
+    await msg.reply(' here are rules im gonna try and follow https://gist.github.com/wojteklu/73c6914cc446146b8b533c0988cf8d29')
 
 @Command('invite')
 async def cmd_function(msg, *args):
@@ -118,6 +137,9 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('AAAAAAAAAAAAAAAAAAAAAAA')
 
+@Command('indent', aliases=['indentation'])
+async def cmd_function(msg, *args):
+    await msg.reply('pssst @lisarei doesnt know how to indent pass it on')
 
 @Command('mom')
 async def cmd_function(msg, *args):
@@ -223,7 +245,7 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('Stardew Valley is an open-ended country-life RPG! Youve inherited your grandfathers old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life.')
 
-@Command('degree')
+@Command('degree', aliases=['uni','university'])
 async def cmd_function(msg, *args):
     await msg.reply('im doing an MScEng in agricultural economics and international development')
 
