@@ -4,6 +4,10 @@ from twitchbot import auto_register_mod
 import json
 import datetime
 import random
+from urllib.request import urlopen
+import json
+
+
 
 
 # data = json.load(open('customcommands.json', 'r'))
@@ -19,6 +23,32 @@ def joke_options(msg):
              'I used to work for a soft drink can crusher. It was soda pressing.']
     return random.choice(jokes)
 
+# fortune
+
+@Command('fortune')
+async def cmd_function(msg, *args):
+    await msg.reply(fortune_options(msg))
+
+def fortune_options(msg):
+    fortunes = ['Be on the alert to recognize your prime at whatever time of your life it may occur.',
+                'Your road to glory will be rocky, but fulfilling.',
+                'Courage is not simply one of the virtues, but the form of every virtue at the testing point.',
+                'Patience is your ally at the moment. Don’t worry!',
+                'Nothing is impossible to a willing heart.,'
+                'Don’t worry about money. The best things in life are free.',
+                'Don’t pursue happiness – create it.',
+                'Courage is not the absence of fear; it is the conquest of it.',
+                'Nothing is so much to be feared as fear.',
+                'All things are difficult before they are easy.',
+                'The real kindness comes from within you.',
+                'A ship in harbor is safe, but that’s not why ships are built.',
+                'You don’t need strength to let go of something. What you really need is understanding.',
+                'If you want the rainbow, you have to tolerate the rain.',
+                'Fear is interest paid on a debt you may not owe.',
+                'The usefulness of a cup is in its emptiness.',
+                'He who throws mud loses ground.']
+    return random.choice(fortunes)
+
 # change each stream
 @Command('text', aliases=['reading'])
 async def cmd_function(msg, *args):
@@ -30,7 +60,12 @@ async def cmd_function(msg, *args):
 
 @Command('today')
 async def cmd_function(msg, *args):
-    await msg.reply('today i am writing my essay, more about that under !text. also im eating breakfast and then gonna be playing eve')
+    await msg.reply('today i am writing my essay, more about that under !text. might do more python later too')
+
+@Command('bitcoin', aliases=['bit', 'b'])
+async def cmd_function(msg, *args):
+    btc_price = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?btcusd').read())['result'][0]['last_price']
+    await msg.reply(f'the current price of bitcoin is: ${btc_price} also btw u can donate in bitcoin 0:) address in description lol')
 
 @Command('tea')
 async def cmd_function(msg, *args):
@@ -166,7 +201,7 @@ async def cmd_function(msg, *args):
 
 @Command('python')
 async def cmd_function(msg, *args):
-    await msg.reply('i am using pycharm pro, have been learning since october 2020, rn im working on this bot')
+    await msg.reply('i am using pycharm pro, have been learning since october 25th 2020, rn im working on this bot')
 
 @Command('equipment', aliases=['specs'])
 async def cmd_function(msg, *args):

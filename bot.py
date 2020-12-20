@@ -161,7 +161,10 @@ def turn_options(msg):
     turn_outcomes = [f'wise choice, {msg.mention}, young one.... you turn without looking and you get hit by a bus u did not see coming. such is fate',
                      f'ohh you are turning back, wise choice {msg.mention}, you were able to escape your fate... for now...',
                      f'only cowards try to escape their destiny, {msg.mention}... you become a citizen of france as your punishment. now you are home. go eat a baguette frogman',
-                     f'hmmmm so you are choosing to follow the devils path, it leads you to a woman in the park, she offers you something... you are led astray {msg.mention} ... you wake up 4 months later with a meth addiction']
+                     f'hmmmm so you are choosing to follow the devils path, it leads you to a woman in the park, she offers you something... you are led astray {msg.mention} ... you wake up 4 months later with a meth addiction',
+                     f'turn back? I hear you {msg.mention}, Id do the same... we should hold hands as we turn back... haha just joking... unless??? ;))',
+                     f' okay {msg.mention}, you turn back and walk back home... your spouse is mad bc you were supposed to buy lemons... but hey you saw a black cat so what else could u have done',
+                     f'turn back!!!!{msg.mention} you akwardly do an 180 and walk the other way. weirdo. but hey whatever keeps u safe. who cares what people think']
     return random.choice(turn_outcomes)
 
 
@@ -169,7 +172,10 @@ def walk_options(msg):
     walk_outcomes = [f'mmm a brave soul... too brave. a grand piano falls on you from the heavens above and you are smashed into the pavement, rest in peace meat goo {msg.mention}',
                      f'oh dear oh dear did you not see the cat? you trip over the poor feline and fall into wet concrete, {msg.mention}, what a day...',
                      f'these boots are made for walking and walking is what they will do... {msg.mention} you become a street walker for the night. your price is set at $20, enjoy',
-                     f'ooo nice choice {msg.mention}, black cats actually bring luck. u find a 5 dollar bill and buy a strawberry jam donut']
+                     f'ooo nice choice {msg.mention}, black cats actually bring luck. u find a 5 dollar bill and buy a strawberry jam donut',
+                     f'you walk by and nothing happens, {msg.mention} how boring...',
+                     f'ohh you walk closer and the kitty meows at u {msg.mention}, it must be homeless!!! you adopt the kitty and name it Lucky. congrats',
+                     f'walk? hmm ok {msg.mention}, you walk down the road and... tune in after the AD break to find out what happens!!!']
     return random.choice(walk_outcomes)
 
 # shame
@@ -201,6 +207,38 @@ def no_options(msg):
     no_outcomes = [f'you are a dammed liar {msg.mention} and a sinner too',
                    f'unrepentant.. the devil lives inside you {msg.mention}... but i kinda like that, you have some coke btw?? i just *sniff sniff* need a pick me up']
     return random.choice(no_outcomes)
+
+is_soulmate = set()
+@Command('soulmate')
+async def cmd_soulmate(msg: Message, *args):
+    is_soulmate.add(msg.author)
+    await msg.reply(f'welcome to my fortune telling tent, i am madame Rei, i am here to tell you about your soulmate, but first tell me {msg.mention}, what is your preference? [type girl/boy]')
+
+@auto_register_mod
+class SoulmateMod(Mod):
+    async def on_privmsg_received(self, msg: Message):
+        if any(word in msg.content.lower() for word in ('girl', 'boy')) and msg.author in is_soulmate:
+            if 'girl' in msg.content.lower():
+                await msg.reply(girl_options(msg))
+
+            elif 'boy' in msg.content.lower():
+                await msg.reply(boy_options(msg))
+
+            is_soulmate.discard(msg.author)
+
+def girl_options(msg):
+    girl_outcomes = [f'mmm {msg.mention}, the crystal ball tells me your soulmate is mmmmmm ohh yess i see BROWN EYES... beautiful brown eyes...',
+                    f'ohh {msg.mention} you are so lucky she is incredibly SMART, a true intellectual... you might meet at a library actually',
+                     f'so {msg.mention} u want to know something about ur soulmate hmm? well my crystal ball is on strike today but my intuition tells me you will meet her before the year ends',
+                     f'i see i see that you will find true love!! {msg.mention} but you will lose her bc u forget to cherish her every day!! but now that i have told u the secret.. you must change your fate!!']
+    return random.choice(girl_outcomes)
+
+def boy_options(msg):
+    boy_outcomes = [f' hmm i seee.. i seee.. your soulmate has a bedframe (and mattress w no stains) and several plants... {msg.mention} very rare',
+                    f' ohhh a man?? okay okay let me recalibrate my crystal ball.. now i see.. he is taller than you.. {msg.mention}  he likes sports and travel.. has a golden retriever? damn i really need to work on my male soulmate visions...',
+                    f'ohh {msg.mention} your soulmates name is Nigel, do with that what you will',
+                    f' you have come to the right place!! {msg.mention} i was just thinking about you!! i had a dream about your love life! so much information.... i just need a small payment before i tell you... wait where are you going???']
+    return random.choice(boy_outcomes)
 
 
 # works
@@ -272,22 +310,40 @@ def frog_options(msg):
 
 # eve online bullying UNFINISHED
 lastEveTime = datetime.min
-# @event_handler(Event.on_privmsg_received)
+@event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
-    eve_words = ['ship', 'caldari', 'gallente', 'isk']
+    eve_words = ['ship', 'isk', 'eve']
     if any(word in msg.content for word in eve_words):
         global lastEveTime
         currentTime = datetime.now()
-        allowedTime = lastEveTime + timedelta(seconds=60)
+        allowedTime = lastEveTime + timedelta(seconds=300)
         print(currentTime > allowedTime)
         if currentTime > allowedTime:
             lastEveTime = currentTime
             await msg.reply(eve_options(msg))
 
 def eve_options(msg):
-    eve_reactions = ['option1', 'option2']
+    eve_reactions = [ f'ohh an eve person... {msg.mention} pls send isk to xymfa']
     return random.choice(eve_reactions)
 
+# eve hellos and all - write different ones to cycle thru
+last_o7_time = {}
+@event_handler(Event.on_privmsg_received)
+async def on_privmsg_received(msg: Message):
+    key = (msg.author, msg.channel_name)
+    diff = (datetime.now() - last_o7_time.get(key, datetime.now())).total_seconds()
+    o7 = ['o7', 'o/', '0/', 'o7']
+    message_o7 = msg.content.split()[0].lower()
+    parsed_message_o7 = re.sub('[^A-Za-z0-9]+', '', message_o7)
+    found_o7 = parsed_message_o7 in o7
+    if (key not in last_o7_time or diff >= 0) and found_o7 == True:
+        last_o7_time[key] = datetime.now() + timedelta(minutes=5)
+        await msg.reply(o7_response(msg))
+
+
+def o7_response(msg):
+    o7_options = [f'o7 {msg.author}! welcome welcome <3', f'o7 o7 did i mention i am in dire need of isk? ', f'o7 hey hey {msg.author}! hows the eve life? ', f' o7 hola amigo {msg.author}!' ]
+    return random.choice(o7_options)
 
 # hellos and all - write different ones to cycle thru
 last_hey_time = {}
@@ -295,7 +351,7 @@ last_hey_time = {}
 async def on_privmsg_received(msg: Message):
     key = (msg.author, msg.channel_name)
     diff = (datetime.now() - last_hey_time.get(key, datetime.now())).total_seconds()
-    greet = ['hey', 'hello', 'hola', 'hi']
+    greet = ['hey', 'hello', 'hola', 'hi', 'hii', 'hiii']
     message_greet = msg.content.split()[0].lower()
     parsed_message_greet = re.sub('[^A-Za-z0-9]+', '', message_greet)
     found_greet = parsed_message_greet in greet
