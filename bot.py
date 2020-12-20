@@ -47,7 +47,7 @@ class TagloveMod(Mod):
             if 'no' in msg.content.lower():
                 await msg.reply(f'i hate u {msg.mention} i will remember this... >:(')
             elif 'maybe' in msg.content.lower():
-                await msg.reply(f'how can u not know {msg.mention} >:(')
+                await msg.reply(f'how can u not know {msg.mention} >:( i am offended')
 
             elif 'yes' in msg.content.lower():
                 await msg.reply(f'thanks {msg.mention} but we should just be friends')
@@ -269,7 +269,10 @@ def boy_options(msg):
     boy_outcomes = [f' hmm i seee.. i seee.. your soulmate has a bedframe (and mattress w no stains) and several plants... {msg.mention} very rare',
                     f' ohhh a man?? okay okay let me recalibrate my crystal ball.. now i see.. he is taller than you.. {msg.mention}  he likes sports and travel.. has a golden retriever? damn i really need to work on my male soulmate visions...',
                     f'ohh {msg.mention} your soulmates name is Nigel, do with that what you will',
-                    f' you have come to the right place!! {msg.mention} i was just thinking about you!! i had a dream about your love life! so much information.... i just need a small payment before i tell you... wait where are you going???']
+                    f' you have come to the right place!! {msg.mention} i was just thinking about you!! i had a dream about your love life! so much information.... i just need a small payment before i tell you... wait where are you going???',
+                    f' so.. idk how to tell u {msg.mention}, you will meet a man in january, everything will be fine for a little while, not amazing but fine.. until u talk about politics and find out hes kinda a nazi and lowkey hates women... then youll be single for a while... by august u figure out u actually like women and meet a girl on tinder... you will move in together after a week. she was ur soulmate all along',
+                    f' omg {msg.mention} i know who ur soulmate is!! his name is Jacob Black and he was born in London October 12 1828!! oh wait... 1827... oh no... welp. ur soulmate is long dead. u will never find anyone else... no no dont cry... get an ouija board or something?',
+                    f'hmm {msg.mention} the devil whispered in my ear that your true love is Jasper from Twilight... how embarassing.. do you havew a vampire fetish or something??? hes not even real and he was a CONFEDERATE soldier.. eww']
     return random.choice(boy_outcomes)
 
 
@@ -368,13 +371,13 @@ last_o7_time = {}
 async def on_privmsg_received(msg: Message):
     key = (msg.author, msg.channel_name)
     diff = (datetime.now() - last_o7_time.get(key, datetime.now())).total_seconds()
-    o7 = ['o7', 'o/', '0/', 'o7']
-    message_o7 = msg.content.split()[0].lower()
-    parsed_message_o7 = re.sub('[^A-Za-z0-9]+', '', message_o7)
-    found_o7 = parsed_message_o7 in o7
-    if (key not in last_o7_time or diff >= 0) and found_o7 == True:
-        last_o7_time[key] = datetime.now() + timedelta(minutes=5)
-        await msg.reply(o7_response(msg))
+    o7_words = ['o7', 'o/', '0/', 'o7']
+    message_o7_words = [w.lower() for w in msg.content.split()]
+    for o7_w in message_o7_words:
+        if o7_w in o7_words and (key not in last_o7_time or diff >= 0):
+
+            last_o7_time[key] = datetime.now() + timedelta(minutes=5)
+            await msg.reply(o7_response(msg))
 
 
 def o7_response(msg):
