@@ -346,7 +346,7 @@ def frog_options(msg):
 
 # eve online begging UNFINISHED
 lastEveTime = datetime.min
-@event_handler(Event.on_privmsg_received)
+# @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
     eve_words = ['caldari', 'isk', 'eve']
     message_eve_words = [w.lower() for w in msg.content.split()]
@@ -367,7 +367,7 @@ def eve_options(msg):
 
 # eve hellos and all - write different ones to cycle thru
 last_o7_time = {}
-@event_handler(Event.on_privmsg_received)
+# @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
     key = (msg.author, msg.channel_name)
     diff = (datetime.now() - last_o7_time.get(key, datetime.now())).total_seconds()
@@ -381,7 +381,7 @@ async def on_privmsg_received(msg: Message):
 
 
 def o7_response(msg):
-    o7_options = [f'o7 {msg.author}! welcome welcome <3', f'o7 o7 did i mention i am in dire need of isk? ', f'o7 hey hey {msg.author}! hows the eve life? ', f' o7 hola amigo {msg.author}!' ]
+    o7_options = [f'o7 {msg.author}! welcome welcome <3', f'o7 hey hey {msg.author}! hows the eve life? ', f' o7 hola amigo {msg.author}!' ]
     return random.choice(o7_options)
 
 # hellos and all - write different ones to cycle thru

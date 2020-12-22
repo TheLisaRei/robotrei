@@ -99,11 +99,11 @@ async def cmd_function(msg, *args):
 # maybe remove i cant be bothered to change em manually
 @Command('song', aliases=['music'])
 async def cmd_function(msg, *args):
-    await msg.reply('currently playing this: https://www.youtube.com/watch?v=OVPPOwMpSpQ')
+    await msg.reply('currently playing this: https://www.youtube.com/watch?v=0tm2OZj0Uug')
 
 @Command('today')
 async def cmd_function(msg, *args):
-    await msg.reply('today i am writing my essay, more about that under !text. might do more python later too')
+    await msg.reply('i am learning about the countries of africa!! https://www.infoplease.com/atlas/africa')
 
 # changing variable
 @Command('bitcoin', aliases=['bit', 'b'])
