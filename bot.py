@@ -7,8 +7,15 @@ import time
 import re
 import asyncio
 import random
+from urllib.request import urlopen
+import json
 
 # MORE COMPLICATED COMMANDS, EASY ONES GO TO THE COMMANDS FILE
+
+
+
+
+"""subject extraction stuff would make this better"""
 
 # love by itself
 is_lover = set()

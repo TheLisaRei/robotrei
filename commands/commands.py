@@ -17,18 +17,6 @@ add fun apis
 # data = json.load(open('customcommands.json', 'r'))
 # print(data)
 
-# add new jokes these suck -- using jokeapi
-# @Command('joke', aliases=['jokes'])
-async def cmd_function(msg, *args):
-    await msg.reply(joke_options(msg))
-
-def joke_options(msg):
-    jokes = ['Why are skeletons so calm? Because nothing gets under their skin.',
-             'What do you call someone with no nose? Nobody knows.',
-             'Wanna see some python??... add me on snapchat',
-             'Why do people In Prague dont pay restaurants with credit card ? Because they only use Czechs',
-             'I used to work for a soft drink can crusher. It was soda pressing.']
-    return random.choice(jokes)
 
 # make sure to update both lists
 
@@ -128,7 +116,28 @@ async def cmd_function(msg, *args):
     eth_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?ethusd').read())['result'][1]['last_price']
     await msg.reply(f'the current price of ethereum is: ${eth_price_usd}')
 
+# added weather stuff kelvins--> metric
+@Command('cold', aliases=['weather'], cooldown=60)
+async def cmd_function(msg, *args):
 
+    weather = json.loads(urlopen('https://api.openweathermap.org/data/2.5/weather?q=Prague&appid=cf90323172994c9ae286c8786ae08390&units=metric').read())
+    temp = weather['main']['temp']
+    description = weather['weather'][0]['description']
+    await msg.reply(f'for me the temperature is {temp} (very cold) in celsius bc who even uses freedom units and it is {description}, whatever that means')
+
+# not functional yet
+# @Command('whatweather', aliases=['wfm'], cooldown=60)
+async def cmd_function(msg, *args):
+    weather = json.loads(urlopen(
+        f'https://api.openweathermap.org/data/2.5/weather?q={CITY}&appid=cf90323172994c9ae286c8786ae08390&units=metric').read())
+    temp = weather['main']['temp']
+    description = weather['weather'][0]['description']
+
+    await msg.reply(
+        f'for me the temperature is {temp} (very cold) in celsius bc who even uses freedom units and it is {description}, whatever that means')
+
+""" TODO!!! there is a easy way to store it, import Config and CONFIG_FOLDER from twitchbot,the `api_keys = Config(CONFIG_FOLDER / 'weather.json', weather='')` then after filling it, its api_keys.weather
+"""
 @Command('joke')
 async def cmd_function(msg, *args):
     joke = json.loads(urlopen('https://official-joke-api.appspot.com/random_joke').read())
