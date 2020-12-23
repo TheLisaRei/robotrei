@@ -8,13 +8,17 @@ from urllib.request import urlopen
 import json
 import asyncio
 
-
+""" todo list:
+database stuff w the server
+database points for goodbot/badbot
+add fun apis
+"""
 
 # data = json.load(open('customcommands.json', 'r'))
 # print(data)
 
-# add new jokes these suck
-@Command('joke', aliases=['jokes'])
+# add new jokes these suck -- using jokeapi
+# @Command('joke', aliases=['jokes'])
 async def cmd_function(msg, *args):
     await msg.reply(joke_options(msg))
 
@@ -43,7 +47,9 @@ def vampire_options(msg):
                'Eric Northman... is this true love?? sir pls bite me... i am yours',
                'Bill from true blood. not hot. no clue how sookie was into him, he srs looks dead. ugh. team Eric',
                'Pamela from true blood. banging latex lady. be my sugarmommy pls',
-               'Tanya from Twilight, u fucking RAT... snitches get stitches... u deserved ur fate'
+               'Tanya from Twilight, u fucking RAT... snitches get stitches... u deserved ur fate',
+               'not even a vampire, u are a filthy werewolf. gross. moonboy.',
+               'Godric from True Blood, you have seen it all, unmoved mover. peaceful being'
                ]
     return random.choice(vampire)
 
@@ -63,7 +69,11 @@ def vampire_options(msg):
                'Eric Northman... is this true love?? sir pls bite me... i am yours',
                'Bill from true blood. not hot. no clue how sookie was into him, he srs looks dead. ugh. team Eric',
                'Pamela from true blood. banging latex lady. be my sugarmommy pls',
-               'Tanya from Twilight, u fucking RAT... snitches get stitches... u deserved ur fate']
+               'Tanya from Twilight, u fucking RAT... snitches get stitches... u deserved ur fate',
+               'not even a vampire, u are a filthy werewolf. gross. moonboy.',
+               'Godric from True Blood, you have seen it all, unmoved mover. peaceful being'
+
+               ]
     return random.choice(vampire)
 
 # fortune
@@ -94,16 +104,15 @@ def fortune_options(msg):
 # change each stream
 @Command('text', aliases=['reading'])
 async def cmd_function(msg, *args):
-    await msg.reply('currently i am writing about water management policies, the aral sea disaster and the role of women in water management in central asia')
-
+    await msg.reply('today im just messing around w the bot and vibing')
 # maybe remove i cant be bothered to change em manually
 @Command('song', aliases=['music'])
 async def cmd_function(msg, *args):
-    await msg.reply('currently playing this: https://www.youtube.com/watch?v=0tm2OZj0Uug')
+    await msg.reply('currently playing this: https://www.youtube.com/watch?v=PofuCgkPMqA')
 
 @Command('today')
 async def cmd_function(msg, *args):
-    await msg.reply('i am learning about the countries of africa!! https://www.infoplease.com/atlas/africa')
+    await msg.reply('today im just messing around w the bot and vibing')
 
 # changing variable
 @Command('bitcoin', aliases=['bit', 'b'])
@@ -111,14 +120,23 @@ async def cmd_function(msg, *args):
     btc_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?btcusd').read())['result'][0]['last_price']
    # btc_price_euro = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?btcusd').read())['result'][0]['last_price']
     await msg.reply(f'the current price of bitcoin is: ${btc_price_usd}')
-    await asyncio.sleep(5)
-    await msg.reply(f'while we are talking about bitcoin... u can donate in btc actually, 13AxggqBeq8ajcpCHbymfZRyyqUKzk39qi .. im sure a smart handsome bitcoin lover like u has some to spare... did i say u are very handsome {msg.mention}?? the most handsome... <3')
+  #  await asyncio.sleep(5)
+#    await msg.reply(f'while we are talking about bitcoin... u can donate in btc actually, 13AxggqBeq8ajcpCHbymfZRyyqUKzk39qi .. im sure a smart handsome bitcoin lover like u has some to spare... did i say u are very handsome {msg.mention}?? the most handsome... <3')
 
 @Command('ethereum', aliases=['eth'])
 async def cmd_function(msg, *args):
     eth_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?ethusd').read())['result'][1]['last_price']
     await msg.reply(f'the current price of ethereum is: ${eth_price_usd}')
 
+
+@Command('joke')
+async def cmd_function(msg, *args):
+    joke = json.loads(urlopen('https://official-joke-api.appspot.com/random_joke').read())
+    setup = joke['setup']
+    punchline = joke['punchline']
+    await msg.reply(setup)
+    await asyncio.sleep(2)
+    await msg.reply(punchline)
 
 
 @Command('tea')
@@ -288,7 +306,7 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('im doing an MScEng in agricultural economics and international development')
 
-# bot feedback
+# bot feedbackdatabase
 @Command('goodbot', aliases=['goodrobot', 'good'])
 async def cmd_function(msg, *args):
     await msg.reply(f'awww thank u {msg.mention} i am glad u like me')
@@ -296,6 +314,7 @@ async def cmd_function(msg, *args):
 @Command('badbot', aliases=['badrobot', 'bad'])
 async def cmd_function(msg, *args):
     await msg.reply(f'wow..... {msg.mention} i have feelings too you know... u try being a bot.... its not so easy')
+    # it would add a point or something????? into the database
 
 @Command('bot')
 async def cmd_function(msg, *args):

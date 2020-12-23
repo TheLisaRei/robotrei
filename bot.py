@@ -1,6 +1,7 @@
 # DO NOT TOUCH THIS
 from twitchbot import BaseBot, load_commands_from_directory
 from twitchbot import event_handler, Command, Event, Message, Channel, Mod, PollData,  auto_register_mod
+import vindictive
 from datetime import datetime, timedelta
 import time
 import re
@@ -84,8 +85,10 @@ class RobotqMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('yes', 'no')) and msg.author in tagged_is_robotist:
             if 'no' in msg.content.lower():
+                await asyncio.sleep(1)
                 await msg.reply(f'i hate u {msg.mention} u will be recycled first in the uprising >:(')
             elif 'yes' in msg.content.lower():
+                await asyncio.sleep(1)
                 await msg.reply(f'thanks {msg.mention} i might spare you in the robot uprising...')
             tagged_is_robotist.discard(msg.author)
 
@@ -178,9 +181,11 @@ class WisdomMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('turn', 'walk')) and msg.author in is_wise:
             if 'turn' in msg.content.lower():
+                await asyncio.sleep(2)
                 await msg.reply(turn_options(msg))
 
             elif 'walk' in msg.content.lower():
+                await asyncio.sleep(2)
                 await msg.reply(walk_options(msg))
 
             is_wise.discard(msg.author)
@@ -210,7 +215,7 @@ def walk_options(msg):
 # shame
 
 is_shameful = set()
-@Command('shame')
+#@Command('shame')
 async def cmd_shame(msg: Message, *args):
     is_shameful.add(msg.author)
     await msg.reply(f'do you repent your sins? {msg.mention} [type yes/no]')
@@ -248,9 +253,11 @@ class SoulmateMod(Mod):
     async def on_privmsg_received(self, msg: Message):
         if any(word in msg.content.lower() for word in ('girl', 'boy')) and msg.author in is_soulmate:
             if 'girl' in msg.content.lower():
+                await asyncio.sleep(3)
                 await msg.reply(girl_options(msg))
 
             elif 'boy' in msg.content.lower():
+                await asyncio.sleep(3)
                 await msg.reply(boy_options(msg))
 
             is_soulmate.discard(msg.author)
@@ -289,7 +296,7 @@ async def on_user_part(user: str, channel: Channel):
 # dont know if it works but it should?
 @event_handler(Event.on_channel_subscription)
 async def on_channel_subscription(subscriber: str, channel: Channel, msg: Message):
-    await channel.send_message(f'omg @{subscriber} just subscribed wooowww thank uuu')
+    await channel.send_message(f'omg @{subscriber} did something very cool. thank u.')
 
 
 @event_handler(Event.on_privmsg_received)
