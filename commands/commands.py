@@ -152,9 +152,14 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('vanilla rooibos tea!')
 
-@Command('amazon')
+@Command('amazon', aliases=['bezos', 'jeff'])
 async def cmd_function(msg, *args):
     await msg.reply('amazon is a terrible company')
+
+
+@Command('elon', aliases=['musk', 'muskrat'])
+async def cmd_function(msg, *args):
+    await msg.reply('elon musk should be made into a leather couch and left by the trashcan')
 
 @Command('theend')
 async def cmd_function(msg, *args):

@@ -274,7 +274,7 @@ def girl_options(msg):
                     f'ohh {msg.mention} you are so lucky she is incredibly SMART, a true intellectual... you might meet at a conference on AI actually',
                      f'so {msg.mention} u want to know something about ur soulmate hmm? well my crystal ball is on strike today but my intuition tells me you will meet her before the year ends',
                      f'i see i see that you will find true love!! {msg.mention} but you will lose her bc u forget to cherish her every day!! but now that i have told u the secret.. you must change your fate!!',
-                     f'hmm {msg.mention} the devil whispered in my ear that your true love is Rosalie from Twilight... how embarassing.. do you havew a vampire fetish or something??? shes not even real',
+                     f'hmm {msg.mention} the devil whispered in my ear that your true love is Rosalie from Twilight... how embarassing.. do you have a vampire fetish or something??? shes not even real',
                      f'see the angels dont want me to tell you who your soulmate is.. {msg.mention} but i can tell you who your divorce attorney will be!! its Greenhill & partners in Rochester, NY... do w that what u will. she will be awarded full custody of ur parrot... beware',
                      f' oh no {msg.mention}, your soulmate was that girl u saw on the subway in 2014... you will never meet her again']
     return random.choice(girl_outcomes)
@@ -336,7 +336,7 @@ async def on_privmsg_received(msg: Message):
 
 # add content
 lastFrogTime = datetime.min
-@event_handler(Event.on_privmsg_received)
+# @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
     frog_words = ['france', 'french', 'paris', 'baguette']
     message_frog_words = [w.lower() for w in msg.content.split()]
