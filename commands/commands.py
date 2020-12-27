@@ -3,6 +3,8 @@ from twitchbot import Command, DummyCommand, SubCommand, CustomCommand
 from twitchbot import auto_register_mod
 import json
 import datetime
+import re
+
 import random
 from urllib.request import urlopen, HTTPError
 import json
@@ -116,7 +118,7 @@ async def cmd_function(msg, *args):
     eth_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?ethusd').read())['result'][1]['last_price']
     await msg.reply(f'the current price of ethereum is: ${eth_price_usd}')
 
-# added weather stuff kelvins--> metric WEATHER
+# added weather stuff kelvins--> metric WEATHER, FUCKING TIMEZONES
 @Command('weather', aliases=['cold'])
 async def cmd_function(msg, *args):
     if not args:
@@ -125,22 +127,43 @@ async def cmd_function(msg, *args):
         description = weather['weather'][0]['description']
         feels_like = weather['main']['feels_like']
         dumb_units = round(((temp * 1.8) + 32),2)
-        await msg.reply(f'for me (prague) the temperature is {temp} but it feels like {feels_like} degrees celsius or {dumb_units} in fahrenheit and it is {description}')
+        sunset_raw = weather['sys']['sunset']
+        sunset = datetime.datetime.fromtimestamp(sunset_raw).strftime('%H:%M')
+        sunrise_raw = weather['sys']['sunrise']
+        sunrise = datetime.datetime.fromtimestamp(sunrise_raw).strftime('%H:%M')
+
+        await msg.reply(f'for me (prague) the temperature is {temp} but it feels like {feels_like} degrees celsius or {dumb_units} in fahrenheit and it is {description}, sun will set at {sunset} but it will rise again at {sunrise}')
     else:
+
         display_name = ' '.join(args).title()
         cityname = '+'.join(args)
-        request_url = f'https://api.openweathermap.org/data/2.5/weather?q={cityname}&appid=cf90323172994c9ae286c8786ae08390&units=metric'
+        if(''.join(args).isalpha()):
+            request_url = f'https://api.openweathermap.org/data/2.5/weather?q={cityname}&appid=cf90323172994c9ae286c8786ae08390&units=metric'
 
-        try:
-            response = urlopen(request_url)
-            data = json.loads(response.read())
-            temp = data['main']['temp']
-            description = data['weather'][0]['description']
-            feels_like = data['main']['feels_like']
-            dumb_units = round(((temp * 1.8) + 32),2)
-            await msg.reply(f'The temperature in {display_name} is {temp} but it feels like {feels_like} celsius but its {dumb_units} in fahrenheit and it is {description}')
-        except HTTPError:
-            await msg.reply(f'It seems you have not provided a useful city name')
+            try:
+                response = urlopen(request_url)
+                data = json.loads(response.read())
+                temp = data['main']['temp']
+                description = data['weather'][0]['description']
+                feels_like = data['main']['feels_like']
+                dumb_units = round(((temp * 1.8) + 32),2)
+                timezone = data['timezone']
+                #sunset
+                sunset_raw = data['sys']['sunset']
+                sunset_convert = sunset_raw + timezone
+                sunset = datetime.datetime.fromtimestamp(sunset_convert).strftime('%H:%M')
+                #sunrise
+                sunrise_raw = data['sys']['sunrise']
+                sunrise_convert = sunrise_raw + timezone
+                sunrise = datetime.datetime.fromtimestamp(sunrise_convert).strftime('%H:%M')
+
+
+
+
+
+                await msg.reply(f'The temperature in {display_name} is {temp} but it feels like {feels_like} celsius but its {dumb_units} in fahrenheit and it is {description}, sun will set at {sunset} but it will rise again at {sunrise} in local time')
+            except HTTPError:
+                await msg.reply(f'It seems you have not provided a useful city name')
 
 # added weather stuff kelvins--> metric
 #RAIN
@@ -169,18 +192,17 @@ async def cmd_function(msg, *args):
         except HTTPError:
             await msg.reply(f'It seems you have not provided a useful city name')
 
-# ONE call for prague
+# ONE call for prague - cannot do for other cities
 #@Command('onecall')
 async def cmd_function(msg, *args):
 
-        rain = json.loads(urlopen('https://api.openweathermap.org/data/2.5/onecall?lat=50.088039&lon=14.42076&exclude=minutely,hourly&appid=75717376a32a615f8801633ff195a5d5&units=metric').read())
-        await msg.reply(f'')
+    onecall = json.loads(urlopen('https://api.openweathermap.org/data/2.5/onecall?lat=50.088039&lon=14.42076&exclude=minutely,hourly&appid=75717376a32a615f8801633ff195a5d5&units=metric').read())
 
 
 
 
-""" TODO!!! there is a easy way to store it, import Config and CONFIG_FOLDER from twitchbot,the `api_keys = Config(CONFIG_FOLDER / 'weather.json', weather='')` then after filling it, its api_keys.weather
-"""
+
+
 @Command('joke')
 async def cmd_function(msg, *args):
     joke = json.loads(urlopen('https://official-joke-api.appspot.com/random_joke').read())
