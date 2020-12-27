@@ -130,7 +130,7 @@ async def cmd_function(msg, *args):
 
         try:
             response = urlopen(request_url)
-            data = json.loads(response)
+            data = json.loads(response.read())
             temp = data['main']['temp']
             description = data['weather'][0]['description']
             await msg.reply(f'The temperature in {cityname} is {temp} in celcius bc who even uses freedom units and it is {description}, whatever that means')
