@@ -117,15 +117,17 @@ async def cmd_function(msg, *args):
     await msg.reply(f'the current price of ethereum is: ${eth_price_usd}')
 
 # added weather stuff kelvins--> metric
-@Command('cold', aliases=['weather'], cooldown=60)
+@Command('weather', aliases=['cold', 'rain'])
 async def cmd_function(msg, *args):
     if not args:
         weather = json.loads(urlopen('https://api.openweathermap.org/data/2.5/weather?q=Prague&appid=cf90323172994c9ae286c8786ae08390&units=metric').read())
         temp = weather['main']['temp']
         description = weather['weather'][0]['description']
-        await msg.reply(f'for me the temperature is {temp} (very cold) in celsius bc who even uses freedom units and it is {description}, whatever that means')
+        feels_like = weather['main']['feels_like']
+        await msg.reply(f'for me (prague) the temperature is {temp} but it feels like {feels_like} degrees celsius and it is {description}')
     else:
-        cityname = args[0].lower()
+        display_name = ' '.join(args)
+        cityname = '+'.join(args)
         request_url = f'https://api.openweathermap.org/data/2.5/weather?q={cityname}&appid=cf90323172994c9ae286c8786ae08390&units=metric'
 
         try:
@@ -133,20 +135,13 @@ async def cmd_function(msg, *args):
             data = json.loads(response.read())
             temp = data['main']['temp']
             description = data['weather'][0]['description']
-            await msg.reply(f'The temperature in {cityname} is {temp} in celcius bc who even uses freedom units and it is {description}, whatever that means')
+            feels_like = data['main']['feels_like']
+            await msg.reply(f'The temperature in {display_name} is {temp} but it feels like {feels_like} celsius and it is {description}')
         except HTTPError:
             await msg.reply(f'It seems you have not provided a useful city name')
 
-# not functional yet
-# @Command('whatweather', aliases=['wfm'], cooldown=60)
-async def cmd_function(msg, *args):
-    weather = json.loads(urlopen(
-        f'https://api.openweathermap.org/data/2.5/weather?q={CITY}&appid=cf90323172994c9ae286c8786ae08390&units=metric').read())
-    temp = weather['main']['temp']
-    description = weather['weather'][0]['description']
 
-    await msg.reply(
-        f'for me the temperature is {temp} (very cold) in celsius bc who even uses freedom units and it is {description}, whatever that means')
+
 
 """ TODO!!! there is a easy way to store it, import Config and CONFIG_FOLDER from twitchbot,the `api_keys = Config(CONFIG_FOLDER / 'weather.json', weather='')` then after filling it, its api_keys.weather
 """
