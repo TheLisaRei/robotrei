@@ -4,7 +4,7 @@ from twitchbot import auto_register_mod
 import json
 import datetime
 import random
-from urllib.request import urlopen
+from urllib.request import urlopen, HTTPError
 import json
 import asyncio
 
@@ -119,11 +119,23 @@ async def cmd_function(msg, *args):
 # added weather stuff kelvins--> metric
 @Command('cold', aliases=['weather'], cooldown=60)
 async def cmd_function(msg, *args):
+    if not args:
+        weather = json.loads(urlopen('https://api.openweathermap.org/data/2.5/weather?q=Prague&appid=cf90323172994c9ae286c8786ae08390&units=metric').read())
+        temp = weather['main']['temp']
+        description = weather['weather'][0]['description']
+        await msg.reply(f'for me the temperature is {temp} (very cold) in celsius bc who even uses freedom units and it is {description}, whatever that means')
+    else:
+        cityname = args.get(0).lower()
+        request_url = f'https://api.openweathermap.org/data/2.5/weather?q={cityname}&appid=cf90323172994c9ae286c8786ae08390&units=metric'
 
-    weather = json.loads(urlopen('https://api.openweathermap.org/data/2.5/weather?q=Prague&appid=cf90323172994c9ae286c8786ae08390&units=metric').read())
-    temp = weather['main']['temp']
-    description = weather['weather'][0]['description']
-    await msg.reply(f'for me the temperature is {temp} (very cold) in celsius bc who even uses freedom units and it is {description}, whatever that means')
+        try:
+            response = urlopen(request_url)
+            data = json.loads(response)
+            temp = data['main']['temp']
+            description = data['weather'][0]['description']
+            await msg.reply(f'The temperature in {cityname} is {temp} in celcius bc who even uses freedom units and it is {description}, whatever that means')
+        except HTTPError:
+            await msg.reply(f'It seems you have not provided a useful city name')
 
 # not functional yet
 # @Command('whatweather', aliases=['wfm'], cooldown=60)
