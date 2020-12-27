@@ -116,15 +116,16 @@ async def cmd_function(msg, *args):
     eth_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?ethusd').read())['result'][1]['last_price']
     await msg.reply(f'the current price of ethereum is: ${eth_price_usd}')
 
-# added weather stuff kelvins--> metric
-@Command('weather', aliases=['cold', 'rain'])
+# added weather stuff kelvins--> metric WEATHER
+@Command('weather', aliases=['cold'])
 async def cmd_function(msg, *args):
     if not args:
         weather = json.loads(urlopen('https://api.openweathermap.org/data/2.5/weather?q=Prague&appid=cf90323172994c9ae286c8786ae08390&units=metric').read())
         temp = weather['main']['temp']
         description = weather['weather'][0]['description']
         feels_like = weather['main']['feels_like']
-        await msg.reply(f'for me (prague) the temperature is {temp} but it feels like {feels_like} degrees celsius and it is {description}')
+        dumb_units = round(((temp * 1.8) + 32),2)
+        await msg.reply(f'for me (prague) the temperature is {temp} but it feels like {feels_like} degrees celsius or {dumb_units} in fahrenheit and it is {description}')
     else:
         display_name = ' '.join(args).title()
         cityname = '+'.join(args)
@@ -136,9 +137,44 @@ async def cmd_function(msg, *args):
             temp = data['main']['temp']
             description = data['weather'][0]['description']
             feels_like = data['main']['feels_like']
-            await msg.reply(f'The temperature in {display_name} is {temp} but it feels like {feels_like} celsius and it is {description}')
+            dumb_units = round(((temp * 1.8) + 32),2)
+            await msg.reply(f'The temperature in {display_name} is {temp} but it feels like {feels_like} celsius but its {dumb_units} in fahrenheit and it is {description}')
         except HTTPError:
             await msg.reply(f'It seems you have not provided a useful city name')
+
+# added weather stuff kelvins--> metric
+#RAIN
+# new api a54b1b5aeed2e1b8d98fea848734d56d for rain
+
+@Command('rain')
+async def cmd_function(msg, *args):
+    if not args:
+        rain = json.loads(urlopen('https://api.openweathermap.org/data/2.5/forecast?q=prague&appid=a54b1b5aeed2e1b8d98fea848734d56d&units=metric').read())
+        current_humidity = rain['list'][0]['main']['humidity']
+        tomorrow_humidity = rain['list'][6]['main']['humidity']
+
+        await msg.reply(f'the humidity in Prague is {current_humidity}, but tomorrow noon it will be {tomorrow_humidity}')
+    else:
+        display_name = ' '.join(args).title()
+        cityname = '+'.join(args)
+        request_url = f'https://api.openweathermap.org/data/2.5/forecast?q={cityname}&appid=a54b1b5aeed2e1b8d98fea848734d56d&units=metric'
+
+        try:
+            response = urlopen(request_url)
+            data = json.loads(response.read())
+            current_humidity = data['list'][0]['main']['humidity']
+            tomorrow_humidity = data['list'][6]['main']['humidity']
+            await msg.reply(f'The current humidity in {display_name} is {current_humidity}, but tomorrow noon it will be {tomorrow_humidity}')
+
+        except HTTPError:
+            await msg.reply(f'It seems you have not provided a useful city name')
+
+# ONE call for prague
+#@Command('onecall')
+async def cmd_function(msg, *args):
+
+        rain = json.loads(urlopen('https://api.openweathermap.org/data/2.5/onecall?lat=50.088039&lon=14.42076&exclude=minutely,hourly&appid=75717376a32a615f8801633ff195a5d5&units=metric').read())
+        await msg.reply(f'')
 
 
 
