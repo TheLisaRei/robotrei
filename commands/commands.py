@@ -125,7 +125,7 @@ async def cmd_function(msg, *args):
         description = weather['weather'][0]['description']
         await msg.reply(f'for me the temperature is {temp} (very cold) in celsius bc who even uses freedom units and it is {description}, whatever that means')
     else:
-        cityname = args.get(0).lower()
+        cityname = args[0].lower()
         request_url = f'https://api.openweathermap.org/data/2.5/weather?q={cityname}&appid=cf90323172994c9ae286c8786ae08390&units=metric'
 
         try:
