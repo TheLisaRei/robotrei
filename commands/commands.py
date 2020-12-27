@@ -126,7 +126,7 @@ async def cmd_function(msg, *args):
         feels_like = weather['main']['feels_like']
         await msg.reply(f'for me (prague) the temperature is {temp} but it feels like {feels_like} degrees celsius and it is {description}')
     else:
-        display_name = ' '.join(args)
+        display_name = ' '.join(args).title()
         cityname = '+'.join(args)
         request_url = f'https://api.openweathermap.org/data/2.5/weather?q={cityname}&appid=cf90323172994c9ae286c8786ae08390&units=metric'
 
