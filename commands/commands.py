@@ -102,7 +102,7 @@ async def cmd_function(msg, *args):
 
 @Command('today')
 async def cmd_function(msg, *args):
-    await msg.reply('today im just messing around w the bot and vibing')
+    await msg.reply('today im just messing around w the bot and vibing, studying')
 
 # changing variable
 @Command('bitcoin', aliases=['bit', 'b'])
