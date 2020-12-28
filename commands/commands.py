@@ -118,52 +118,58 @@ async def cmd_function(msg, *args):
     eth_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?ethusd').read())['result'][1]['last_price']
     await msg.reply(f'the current price of ethereum is: ${eth_price_usd}')
 
+
+# these can be moved to config file later on easily, also easier to reuse these variables
+# constants are usually UPPER_CASE
+OPEN_WEATHER_APPID = 'cf90323172994c9ae286c8786ae08390'
+OPEN_WEATHER_UNITS = 'metric'
+OPEN_WEATHER_URL = 'https://api.openweathermap.org/data/2.5/{}?q={}&appid={}&units={}'
+#OPEN_WEATHER_URL = 'https://api.openweathermap.org/data/2.5/{operation}?q={city}&appid={app_id}&units={units}'
+# you can use above variable when you want to manually specify the fields while formatting the string, otherwise always follow the order from left to right
+OW_OPERATION_WEATHER = 'weather'
+OW_OPERATION_FORECAST = 'forecast'
+
 # added weather stuff kelvins--> metric WEATHER, FUCKING TIMEZONES
 @Command('weather', aliases=['cold'])
 async def cmd_function(msg, *args):
+
+    # determine city_api_name, city_display_name beforehand to avoid code duplication
     if not args:
-        weather = json.loads(urlopen('https://api.openweathermap.org/data/2.5/weather?q=Prague&appid=cf90323172994c9ae286c8786ae08390&units=metric').read())
-        temp = weather['main']['temp']
-        description = weather['weather'][0]['description']
-        feels_like = weather['main']['feels_like']
-        dumb_units = round(((temp * 1.8) + 32),2)
-        sunset_raw = weather['sys']['sunset']
-        sunset = datetime.datetime.fromtimestamp(sunset_raw).strftime('%H:%M')
-        sunrise_raw = weather['sys']['sunrise']
-        sunrise = datetime.datetime.fromtimestamp(sunrise_raw).strftime('%H:%M')
-
-        await msg.reply(f'for me (prague) the temperature is {temp} but it feels like {feels_like} degrees celsius or {dumb_units} in fahrenheit and it is {description}, sun will set at {sunset} but it will rise again at {sunrise}')
+        # No args -> Assume Prague
+        city_api_name = city_display_name = city_test_name = 'Prague'
+        msg_prefix = 'For Lisa, '
     else:
+        city_display_name = ' '.join(args).title()
+        city_api_name = '+'.join(args)
+        city_test_name = ''.join(args)
+        msg_prefix = ''
 
-        display_name = ' '.join(args).title()
-        cityname = '+'.join(args)
-        if(''.join(args).isalpha()):
-            request_url = f'https://api.openweathermap.org/data/2.5/weather?q={cityname}&appid=cf90323172994c9ae286c8786ae08390&units=metric'
+    # generate URL with the required inputs
+    request_url = OPEN_WEATHER_URL.format(OW_OPERATION_WEATHER, city_api_name, OPEN_WEATHER_APPID, OPEN_WEATHER_UNITS)
 
-            try:
-                response = urlopen(request_url)
-                data = json.loads(response.read())
-                temp = data['main']['temp']
-                description = data['weather'][0]['description']
-                feels_like = data['main']['feels_like']
-                dumb_units = round(((temp * 1.8) + 32),2)
-                timezone = data['timezone']
-                #sunset
-                sunset_raw = data['sys']['sunset']
-                sunset_convert = sunset_raw + timezone
-                sunset = datetime.datetime.fromtimestamp(sunset_convert).strftime('%H:%M')
-                #sunrise
-                sunrise_raw = data['sys']['sunrise']
-                sunrise_convert = sunrise_raw + timezone
-                sunrise = datetime.datetime.fromtimestamp(sunrise_convert).strftime('%H:%M')
+    # we're ready now, lets hit the OPEN-WEATHER API!
+    try:
+        response = urlopen(request_url)
+        data = json.loads(response.read())
+        temp = data['main']['temp']
+        description = data['weather'][0]['description']
+        feels_like = data['main']['feels_like']
+        dumb_units = round(((temp * 1.8) + 32),2)
+        timezone = data['timezone']
+        #sunset
+        sunset_raw = data['sys']['sunset']
+        sunset_convert = sunset_raw + timezone
+        sunset = datetime.datetime.fromtimestamp(sunset_convert).strftime('%H:%M')
+        #sunrise
+        sunrise_raw = data['sys']['sunrise']
+        sunrise_convert = sunrise_raw + timezone
+        sunrise = datetime.datetime.fromtimestamp(sunrise_convert).strftime('%H:%M')
 
+        await msg.reply(f'{msg_prefix}The weather in {city_display_name} is {description}. The current temperature is {temp} celsius, it feels like {feels_like} celsius but its {dumb_units} in dumb fahrenheit. Also, the sun will set at {sunset} but it will rise again at {sunrise} in local time')
 
-
-
-
-                await msg.reply(f'The temperature in {display_name} is {temp} but it feels like {feels_like} celsius but its {dumb_units} in fahrenheit and it is {description}, sun will set at {sunset} but it will rise again at {sunrise} in local time')
-            except HTTPError:
-                await msg.reply(f'It seems you have not provided a useful city name')
+    # API call was not a success
+    except HTTPError:
+        await msg.reply(f'It seems you have not provided a useful city name, please try again later :)')
 
 # added weather stuff kelvins--> metric
 #RAIN
