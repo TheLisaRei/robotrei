@@ -16,11 +16,9 @@ with open('configs/api_keys.json') as f:
     api_keys = json.load(f)
 
 
-""" the api_keys = Config(CONFIG_FOLDER / 'weather.json', weather='') then after filling it, its api_keys.weather
-"""
-
-
-
+@Command('commands', aliases=['command'], cooldown=300)
+async def cmd_function(msg, *args):
+    await msg.reply('feel free to try !robbery, !soulmate, !wisdom')
 
 @Command('define', aliases=['word'], cooldown=60)
 async def cmd_function(msg, *args):
