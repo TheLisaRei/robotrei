@@ -305,16 +305,18 @@ async def on_user_part(user: str, channel: Channel):
 async def on_channel_subscription(subscriber: str, channel: Channel, msg: Message):
     await channel.send_message(f'omg @{subscriber} did something very cool. thank u.')
 
-
+# will be re
 @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
-    if 'Thank you for following' in msg.content:
+    allowed_users = {'streamlabs'}
+    if 'Thank you for following' in msg.content and msg.author in allowed_users:
         await msg.reply('yes yes thank u for following! <3 i am the !bot of this channel')
 
 @event_handler(Event.on_bits_donated)
 async def on_bits_donated(self, msg: Message, bits: int):
     await msg.reply('thank you for cheering')
 
+# follow stuff coming soon for the events
 
 
 # initialize the variable
@@ -336,7 +338,7 @@ async def on_privmsg_received(msg: Message):
 
 # add content
 lastFrogTime = datetime.min
-# @event_handler(Event.on_privmsg_received)
+@event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
     frog_words = ['france', 'french', 'paris', 'baguette']
     message_frog_words = [w.lower() for w in msg.content.split()]

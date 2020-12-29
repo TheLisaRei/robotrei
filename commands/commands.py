@@ -22,7 +22,7 @@ with open('configs/api_keys.json') as f:
 
 
 
-@Command('define')
+@Command('define', aliases=['word'], cooldown=60)
 async def cmd_function(msg, *args):
     custom_word = "+".join(args)
 
@@ -121,10 +121,12 @@ def fortune_options(msg):
 @Command('text', aliases=['reading'])
 async def cmd_function(msg, *args):
     await msg.reply('today im just messing around w the bot and vibing')
+
+
 # maybe remove i cant be bothered to change em manually
 @Command('song', aliases=['music'])
 async def cmd_function(msg, *args):
-    await msg.reply('currently playing this: https://www.youtube.com/watch?v=PofuCgkPMqA')
+    await msg.reply('currently under construction')
 
 @Command('today')
 async def cmd_function(msg, *args):
@@ -194,11 +196,11 @@ async def cmd_function(msg, *args):
         sunrise = datetime.datetime.fromtimestamp(sunrise_convert).strftime('%H:%M')
 
         await msg.reply(f'{msg_prefix}The weather in {city_display_name} is {description}. The current temperature is {temp} celsius, it feels like {feels_like} celsius but its {dumb_units} in dumb fahrenheit. Also, the sun will set at {sunset} but it will rise again at {sunrise} in local time')
-
+        print(request_url)
     # API call was not a success
     except HTTPError:
         await msg.reply(f'It seems you have not provided a useful city name, please try again later :)')
-
+        print(request_url)
 
 @Command('joke')
 async def cmd_function(msg, *args):

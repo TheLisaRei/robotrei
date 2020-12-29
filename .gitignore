@@ -4,6 +4,7 @@ database.sqlite
 # Configuration with secure things
 configs/config.json
 configs/mysql.json
+configs/api_keys.json
 
 # Dev environments
 __pycache__
