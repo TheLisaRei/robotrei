@@ -1,3 +1,4 @@
+https://www.twitch.tv/lisarei
 # robotrei
 my beautiful python robot child - PythonTwitchBotFramework based python bot for twitch for LisaRei's channel
 
