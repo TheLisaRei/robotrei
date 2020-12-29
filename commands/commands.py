@@ -1,23 +1,49 @@
 
-from twitchbot import Command, DummyCommand, SubCommand, CustomCommand
-from twitchbot import auto_register_mod
+from twitchbot import Command, DummyCommand, SubCommand, CustomCommand, auto_register_mod, Config, CONFIG_FOLDER
 import json
 import datetime
 import re
-
+import logging
 import random
 from urllib.request import urlopen, HTTPError
 import json
 import asyncio
+import requests
 
-""" todo list:
-database stuff w the server
-database points for goodbot/badbot
-add fun apis
+
+
+with open('configs/api_keys.json') as f:
+    api_keys = json.load(f)
+
+
+""" the api_keys = Config(CONFIG_FOLDER / 'weather.json', weather='') then after filling it, its api_keys.weather
 """
 
-# data = json.load(open('customcommands.json', 'r'))
-# print(data)
+
+
+
+@Command('define')
+async def cmd_function(msg, *args):
+    custom_word = "+".join(args)
+
+
+    url = f"https://wordsapiv1.p.rapidapi.com/words/{custom_word}/definitions"
+
+    headers = {
+        'x-rapidapi-key': api_keys['dictionary'],
+        'x-rapidapi-host': "wordsapiv1.p.rapidapi.com"
+    }
+
+    response = requests.request("GET", url, headers=headers)
+
+
+    data = response.json()
+    if response.status_code == 200:
+        definition = random.choice(data['definitions'])['definition']
+        await msg.reply(f'the definition of {custom_word} might be: "{definition}"')
+    else:
+        message = data['message']
+        await msg.reply(f'sadly {message}')
 
 
 # make sure to update both lists
@@ -76,7 +102,7 @@ def fortune_options(msg):
                 'Your road to glory will be rocky, but fulfilling.',
                 'Courage is not simply one of the virtues, but the form of every virtue at the testing point.',
                 'Patience is your ally at the moment. Don’t worry!',
-                'Nothing is impossible to a willing heart.,'
+                'Nothing is impossible to a willing heart.',
                 'Don’t worry about money. The best things in life are free.',
                 'Don’t pursue happiness – create it.',
                 'Courage is not the absence of fear; it is the conquest of it.',
@@ -121,7 +147,9 @@ async def cmd_function(msg, *args):
 
 # these can be moved to config file later on easily, also easier to reuse these variables
 # constants are usually UPPER_CASE
-OPEN_WEATHER_APPID = 'cf90323172994c9ae286c8786ae08390'
+
+
+OPEN_WEATHER_APPID = api_keys['weather']
 OPEN_WEATHER_UNITS = 'metric'
 OPEN_WEATHER_URL = 'https://api.openweathermap.org/data/2.5/{}?q={}&appid={}&units={}'
 #OPEN_WEATHER_URL = 'https://api.openweathermap.org/data/2.5/{operation}?q={city}&appid={app_id}&units={units}'
@@ -170,43 +198,6 @@ async def cmd_function(msg, *args):
     # API call was not a success
     except HTTPError:
         await msg.reply(f'It seems you have not provided a useful city name, please try again later :)')
-
-# added weather stuff kelvins--> metric
-#RAIN
-# new api a54b1b5aeed2e1b8d98fea848734d56d for rain
-
-@Command('rain')
-async def cmd_function(msg, *args):
-    if not args:
-        rain = json.loads(urlopen('https://api.openweathermap.org/data/2.5/forecast?q=prague&appid=a54b1b5aeed2e1b8d98fea848734d56d&units=metric').read())
-        current_humidity = rain['list'][0]['main']['humidity']
-        tomorrow_humidity = rain['list'][6]['main']['humidity']
-
-        await msg.reply(f'the humidity in Prague is {current_humidity}, but tomorrow noon it will be {tomorrow_humidity}')
-    else:
-        display_name = ' '.join(args).title()
-        cityname = '+'.join(args)
-        request_url = f'https://api.openweathermap.org/data/2.5/forecast?q={cityname}&appid=a54b1b5aeed2e1b8d98fea848734d56d&units=metric'
-
-        try:
-            response = urlopen(request_url)
-            data = json.loads(response.read())
-            current_humidity = data['list'][0]['main']['humidity']
-            tomorrow_humidity = data['list'][6]['main']['humidity']
-            await msg.reply(f'The current humidity in {display_name} is {current_humidity}, but tomorrow noon it will be {tomorrow_humidity}')
-
-        except HTTPError:
-            await msg.reply(f'It seems you have not provided a useful city name')
-
-# ONE call for prague - cannot do for other cities
-#@Command('onecall')
-async def cmd_function(msg, *args):
-
-    onecall = json.loads(urlopen('https://api.openweathermap.org/data/2.5/onecall?lat=50.088039&lon=14.42076&exclude=minutely,hourly&appid=75717376a32a615f8801633ff195a5d5&units=metric').read())
-
-
-
-
 
 
 @Command('joke')
