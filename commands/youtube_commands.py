@@ -10,6 +10,10 @@ with open('configs/api_keys.json') as f:
 # command
 @Command('song', aliases=['yt', 'youtube', 'music', 'tune'])
 async def cmd_function(msg, *args):
+    if api_keys["youtube_api"] == "":
+        print("[BOT] !song command: missing api key for 'youtube_api'")
+        return
+
     # function that writes into videos.json
     def get_video_info():
         api = pyyoutube.Api(api_key=API_KEY)

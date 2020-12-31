@@ -11,14 +11,33 @@ from pyyoutube import api
 
 
 # this loads the super secret api keys
-with open('configs/api_keys.json') as f:
-    api_keys = json.load(f)
+try:
+    with open('configs/api_keys.json') as f:
+        api_keys = json.load(f)
+except FileNotFoundError:
+    print("[Notice]: creating empty configuration file 'configs/api_keys.json'")
+    empty_config = {
+        "dictionary": "",
+        "weather": "",
+
+        # youtube config not used in this file, but other files
+        # depend on it, so lets just write it here
+        "youtube_api": "",
+    }
+    with open('configs/api_keys.json', 'w') as f:
+        json.dump(empty_config, f)
+        api_keys = empty_config
+
 
 
 
 # dictionary
 @Command('define', aliases=['word'], cooldown=60)
 async def cmd_function(msg, *args):
+    if api_keys["dictionary"] == "":
+        print("[BOT] !define command: missing api key for 'dictionary'")
+        return
+
     custom_word = "+".join(args)
 
     url = f"https://wordsapiv1.p.rapidapi.com/words/{custom_word}/definitions"
@@ -69,6 +88,9 @@ OW_OPERATION_FORECAST = 'forecast'
 # added weather stuff kelvins--> metric WEATHER, FUCKING TIMEZONES
 @Command('weather', aliases=['cold'])
 async def cmd_function(msg, *args):
+    if api_keys["weather"] == "":
+        print("[BOT] !weather command: missing api key for 'weather'")
+        return
     # determine city_api_name, city_display_name beforehand to avoid code duplication
     if not args:
         # No args -> Assume Prague
