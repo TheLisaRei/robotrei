@@ -22,7 +22,11 @@ async def cmd_soulmate(msg: Message, *args):
             f'i see i see that you will find true love!! {msg.mention} but you will lose her bc u forget to cherish her every day!! but now that i have told u the secret.. you must change your fate!!',
             f'hmm {msg.mention} the devil whispered in my ear that your true love is Rosalie from Twilight... how embarassing.. do you have a vampire fetish or something??? shes not even real',
             f'see the angels dont want me to tell you who your soulmate is.. {msg.mention} but i can tell you who your divorce attorney will be!! its Greenhill & partners in Rochester, NY... do w that what u will. she will be awarded full custody of ur parrot... beware',
-            f' oh no {msg.mention}, your soulmate was that girl u saw on the subway in 2014... you will never meet her again'
+            f' oh no {msg.mention}, your soulmate was that girl u saw on the subway in 2014... you will never meet her again',
+            f' your soulmate is the last lady you bought a burger from, {msg.mention}, I dont care if u dont like her and she could be ur mom, it is fate stop fighting it',
+            f' sorry {msg.mention}, she has a boyfriend right now but she will see the light soon... he just started playing WoW again and stopped brushing his teeth... your time is coming',
+            f' oh no {msg.mention}... your soulmate plays LoL, i am so sorry, i will give you a full refund for my services, that is really unfortunate. our society places too much value on being in a romantic relationship, theres nothing wrong with staying single forever. its really the better option for you all thing considered',
+            f'wow {msg.mention} your soulmate is your least favorite ex. you fucked up, call and apologize for everything'
         ]))
 
     elif 'boy' in response.raw_value.parts:
@@ -33,5 +37,7 @@ async def cmd_soulmate(msg: Message, *args):
             f' you have come to the right place!! {msg.mention} i was just thinking about you!! i had a dream about your love life! so much information.... i just need a small payment before i tell you... wait where are you going???',
             f' so.. idk how to tell u {msg.mention}, you will meet a man in january, everything will be fine for a little while, not amazing but fine.. until u talk about politics and find out hes kinda a nazi and lowkey hates women... then youll be single for a while... by august u figure out u actually like women and meet a girl on tinder... you will move in together after a week. she was ur soulmate all along',
             f' omg {msg.mention} i know who ur soulmate is!! his name is Jacob Black and he was born in London October 12 1828!! oh wait... 1827... oh no... welp. ur soulmate is long dead. u will never find anyone else... no no dont cry... get an ouija board or something?',
-            f'hmm {msg.mention} the devil whispered in my ear that your true love is Jasper from Twilight... how embarassing.. do you havew a vampire fetish or something??? hes not even real and he was a CONFEDERATE soldier.. eww'
+            f'hmm {msg.mention} the devil whispered in my ear that your true love is Jasper from Twilight... how embarassing.. do you havew a vampire fetish or something??? hes not even real and he was a CONFEDERATE soldier.. eww',
+            f' oh no {msg.mention}... your soulmate plays LoL, i am so sorry, i will give you a full refund for my services, that is really unfortunate. our society places too much value on being in a romantic relationship, theres nothing wrong with staying single forever. its really the better option for you all thing considered',
+            f' hmmmm idk how to tell you this but your soulmate is a furry {msg.mention}, the worst thing is that his fursona is a bird. i am a very tolerant being but it is disturbing... the bird part esp'
         ]))
