@@ -103,15 +103,15 @@ async def cmd_function(msg, *args):
 
         await msg.reply(
             f'{msg_prefix}The weather in {city_display_name} is {description} lisare1Robot  The current temperature is {temp} celsius, it feels like {feels_like} celsius but its {dumb_units} in dumb fahrenheit lisare1Hiss  Also, the sun will set at {sunset} but it will rise again at {sunrise} in local time lisare1Arson ')
-        print(request_url)
+
     # API call was not a success
     except HTTPError:
         await msg.reply(f'It seems you have not provided a useful city name, please try again later lisare1Hiss ')
-        print(request_url)
+
 
 
 # jokes
-@Command('joke')
+@Command('joke', aliases=['dadjoke'])
 async def cmd_function(msg, *args):
     joke = json.loads(urlopen('https://official-joke-api.appspot.com/random_joke').read())
     setup = joke['setup']

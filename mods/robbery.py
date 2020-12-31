@@ -37,7 +37,9 @@ async def cmd_function(msg: Message, *args):
         await msg.reply(choice([
             f'ohh {target} you are a brave soul... i will still stab u but w respect. a true warriors death.',
             f' uuu a karate master {target}, chop chop... u are a no match for a knife.. stab stab.. goodnight',
-            f' hehe {target} u are overestimating ur abilities... ohh a KNIFE?? lord... would be trouble for me... if i didnt have this GUN... bang BANG byeeee'
+            f' hehe {target} u are overestimating ur abilities... ohh a KNIFE?? lord... would be trouble for me... if i didnt have this GUN... bang BANG byeeee',
+            f' lol u troublemaker u {target}, u think u can take me on?? are u for real.... the disrespect... i think ill stab u particularly thoroughly, u will be fit to be the colander on a flying spaghetti monster believers head for their drivers license picture'
+
         ]))
         await msg.send_command(
             f'/me {target} is bleeding to death as RobotRei takes all their money anyway')
