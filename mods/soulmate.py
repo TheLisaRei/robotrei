@@ -1,14 +1,20 @@
 from twitchbot import Command, Message, custom_predicate, choice
 
+
+
+# fix user input later
+
 @Command('soulmate')
 async def cmd_soulmate(msg: Message, *args):
     await msg.reply(
         f'welcome to my fortune telling tent, i am madame Rei, i am here to tell you about your soulmate, but first tell me {msg.mention}, what is your preference? [type girl/boy]')
+
     response = await msg.wait_for_reply(
         custom_predicate(
-            lambda m: any(text in m.parts for text in ('girl', 'boy')), msg=msg
+            lambda m: any(text in [p.lower() for p in m.parts] for text in ('girl', 'boy')), msg=msg
         ), timeout=30
     )
+
 
     if not response.is_message:
         await msg.reply(f'u have not responded {msg.mention}, seems like u are not ready for this knowledge ')
