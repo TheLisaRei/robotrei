@@ -5,6 +5,7 @@ database.sqlite
 configs/config.json
 configs/mysql.json
 configs/api_keys.json
+configs/database_config.json
 
 # Dev environments
 __pycache__

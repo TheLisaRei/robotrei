@@ -2,23 +2,40 @@ import pyyoutube
 from twitchbot import Command
 import datetime
 import random
-from urllib.request import urlopen
-from urllib.error import HTTPError
 import json
 import asyncio
-import requests
+import httpx
 from pyyoutube import api
 
 
 # this loads the super secret api keys
-with open('configs/api_keys.json') as f:
-    api_keys = json.load(f)
+try:
+    with open('configs/api_keys.json') as f:
+        api_keys = json.load(f)
+except FileNotFoundError:
+    print("[Notice]: creating empty configuration file 'configs/api_keys.json'")
+    empty_config = {
+        "dictionary": "",
+        "weather": "",
+
+        # youtube config not used in this file, but other files
+        # depend on it, so lets just write it here
+        "youtube_api": "",
+    }
+    with open('configs/api_keys.json', 'w') as f:
+        json.dump(empty_config, f)
+        api_keys = empty_config
+
 
 
 
 # dictionary
 @Command('define', aliases=['word'], cooldown=60)
 async def cmd_function(msg, *args):
+    if api_keys["dictionary"] == "":
+        print("[BOT] !define command: missing api key for 'dictionary'")
+        return
+
     custom_word = "+".join(args)
 
     url = f"https://wordsapiv1.p.rapidapi.com/words/{custom_word}/definitions"
@@ -28,7 +45,9 @@ async def cmd_function(msg, *args):
         'x-rapidapi-host': "wordsapiv1.p.rapidapi.com"
     }
 
-    response = requests.request("GET", url, headers=headers)
+    # TODO error handling
+    async with httpx.AsyncClient() as client:
+        response = await client.get(url, headers=headers)
 
     data = response.json()
     if response.status_code == 200:
@@ -42,16 +61,24 @@ async def cmd_function(msg, *args):
 # bitcoin
 @Command('bitcoin', aliases=['bit', 'b'])
 async def cmd_function(msg, *args):
-    btc_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?btcusd').read())['result'][0][
-        'last_price']
+    # TODO error handling
+    async with httpx.AsyncClient() as client:
+        response = await client.get('https://api.bybit.com/v2/public/tickers?btcusd')
+
+    data = response.json()
+    btc_price_usd = data['result'][0]['last_price']
     await msg.reply(f'the current price of bitcoin is: ${btc_price_usd} lisare1Arson')
 
 
 # eth
 @Command('ethereum', aliases=['eth'])
 async def cmd_function(msg, *args):
-    eth_price_usd = json.loads(urlopen('https://api.bybit.com/v2/public/tickers?ethusd').read())['result'][1][
-        'last_price']
+    # TODO error handling
+    async with httpx.AsyncClient() as client:
+        response = await client.get('https://api.bybit.com/v2/public/tickers?ethusd')
+
+    data = response.json()
+    eth_price_usd = data['result'][1]['last_price']
     await msg.reply(f'the current price of ethereum is: ${eth_price_usd} lisare1Hiss')
 
 
@@ -69,6 +96,10 @@ OW_OPERATION_FORECAST = 'forecast'
 # added weather stuff kelvins--> metric WEATHER, FUCKING TIMEZONES
 @Command('weather', aliases=['cold'])
 async def cmd_function(msg, *args):
+    if api_keys["weather"] == "":
+        print("[BOT] !weather command: missing api key for 'weather'")
+        return
+
     # determine city_api_name, city_display_name beforehand to avoid code duplication
     if not args:
         # No args -> Assume Prague
@@ -85,35 +116,46 @@ async def cmd_function(msg, *args):
 
     # we're ready now, lets hit the OPEN-WEATHER API!
     try:
-        response = urlopen(request_url)
-        data = json.loads(response.read())
-        temp = data['main']['temp']
-        description = data['weather'][0]['description']
-        feels_like = data['main']['feels_like']
-        dumb_units = round(((temp * 1.8) + 32), 2)
-        timezone = data['timezone']
-        # sunset
-        sunset_raw = data['sys']['sunset']
-        sunset_convert = sunset_raw + timezone
-        sunset = datetime.datetime.fromtimestamp(sunset_convert).strftime('%H:%M')
-        # sunrise
-        sunrise_raw = data['sys']['sunrise']
-        sunrise_convert = sunrise_raw + timezone
-        sunrise = datetime.datetime.fromtimestamp(sunrise_convert).strftime('%H:%M')
+        async with httpx.AsyncClient() as client:
+            response = await client.get(request_url)
+    except httpx.HTTPError:
 
-        await msg.reply(
-            f'{msg_prefix}The weather in {city_display_name} is {description} lisare1Robot  The current temperature is {temp} celsius, it feels like {feels_like} celsius but its {dumb_units} in dumb fahrenheit lisare1Hiss  Also, the sun will set at {sunset} but it will rise again at {sunrise} in local time lisare1Arson ')
-
-    # API call was not a success
-    except HTTPError:
+        # TODO this error message is not correct.
+        # this exception is for _any_ failure of the api call
+        # (not just if the city name is bad)
         await msg.reply(f'It seems you have not provided a useful city name, please try again later lisare1Hiss ')
+
+    data = response.json()
+    temp = data['main']['temp']
+    description = data['weather'][0]['description']
+    feels_like = data['main']['feels_like']
+    dumb_units = round(((temp * 1.8) + 32), 2)
+    timezone = data['timezone']
+    # sunset
+    sunset_raw = data['sys']['sunset']
+    sunset_convert = sunset_raw + timezone
+    sunset = datetime.datetime.fromtimestamp(sunset_convert).strftime('%H:%M')
+    # sunrise
+    sunrise_raw = data['sys']['sunrise']
+    sunrise_convert = sunrise_raw + timezone
+    sunrise = datetime.datetime.fromtimestamp(sunrise_convert).strftime('%H:%M')
+
+    await msg.reply(
+        f'{msg_prefix}The weather in {city_display_name} is {description} lisare1Robot  The current temperature is {temp} celsius, it feels like {feels_like} celsius but its {dumb_units} in dumb fahrenheit lisare1Hiss  Also, the sun will set at {sunset} but it will rise again at {sunrise} in local time lisare1Arson ')
 
 
 
 # jokes
 @Command('joke', aliases=['dadjoke'])
 async def cmd_function(msg, *args):
-    joke = json.loads(urlopen('https://official-joke-api.appspot.com/random_joke').read())
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get('https://official-joke-api.appspot.com/random_joke')
+    except httpx.HTTPError:
+        await msg.reply("There was an error calling the joke api")
+        return
+    
+    joke = response.json()
     setup = joke['setup']
     punchline = joke['punchline']
     await msg.reply(setup)
