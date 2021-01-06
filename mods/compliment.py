@@ -1,14 +1,13 @@
 from twitchbot import Command, Message, custom_predicate, choice
 
 
-
 @Command('compliment', aliases=['compliments', 'nice'])
 async def cmd_function(msg: Message, *args):
     target = msg.arg_or_default(0, msg.author)
     print(target)
-    await msg.reply(f'{target} ' + choice([
-            'you have really nice feet ',
-            'you are your moms favorite',
+    await msg.reply(f' lisare1Heart {target} lisare1Heart  ' + choice([
+        'you have really nice feet ',
+        'you are your moms favorite',
         'you fingers are the correct length in proportion to your hands',
         'you r good enough, u are smart enough, and god damn it, people like you',
         'you have nice teeth',
@@ -39,9 +38,25 @@ async def cmd_function(msg: Message, *args):
         'If there is one thing I like about you, its that I like more than one thing about you.',
         'you probably recycle',
         'you have nice ears',
-        'I looked in my error log but I couldnt find you.'
+        'I looked in my error log but I couldnt find you.',
+        'you make many people happy',
+        'Bob Ross would have been friends with you!',
+        'i value the time i get to spend with you',
+        'your ears are the correct size to compliment your head shape',
+        'you could pull any haircut off',
+        'your natural haicolor is what many people wish they were born with',
+        'i bet all your houseplants are thriving!!',
+        'u are a good child to your parents and they are so proud of u',
+        'your children will NOT need therapy after your parenting, congratulations',
+        'You’re Even More Beautiful On The Inside Than You Are On The Outside.',
+        ' When You’re Not Afraid To Be Yourself Is When You’re Most Incredible.',
+        '. If You Were A Box Of Crayons, You’d Be The Giant Name-Brand One With The Built-In Sharpener.',
+        'You’re A Candle In The Darkness.',
+        'Actions Speak Louder Than Words, And Yours Tell An Incredible Story.',
+        'In High School, I Bet You Were Voted “Most Likely To Keep Being Awesome.”',
+        'You’re Really Something Special.',
+        'Babies And Small Animals Probably Love You.',
+        ' If Cartoon Bluebirds Were Real, A Couple Of ’Em Would Be Sitting On Your Shoulders Singing Right Now.',
+        'You’re More Fun Than A Ball Pit Filled With Candy.'
 
-
-        ]))
-
-
+    ]))

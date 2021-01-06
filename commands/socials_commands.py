@@ -4,7 +4,7 @@ from twitchbot import Command
 # links
 @Command('github', aliases=['gb', 'git', 'gh', 'g', 'code'])
 async def cmd_function(msg, *args):
-    await msg.reply('come bully me at https://github.com/lisareina/robotrei lisare1Heart ')
+    await msg.reply('come bully me at https://github.com/TheLisaRei/robotrei lisare1Heart ')
 
 
 @Command('invite')
@@ -21,13 +21,16 @@ async def cmd_function(msg, *args):
 
 @Command('twitter', aliases=['t', 'bird'])
 async def cmd_function(msg, *args):
-    await msg.reply('follow me on twitter https://twitter.com/lisareistudy lisare1Heart ')
+    await msg.reply('follow me on twitter https://twitter.com/thelisarei lisare1Heart ')
 
 
 @Command('instagram', aliases=['i', 'insta', 'ig'])
 async def cmd_function(msg, *args):
     await msg.reply('my insta is: https://www.instagram.com/thelisarei/ lisare1Heart ')
 
+@Command('youtube', aliases=['yt'])
+async def cmd_function(msg, *args):
+    await msg.reply('pls follow my youtube channel, i need 100 subscribers to make a non ugly url for it aaaaa: https://www.youtube.com/channel/UCyLCa__OaneD4kTOjJA-8og ')
 
 @Command('donate', aliases=['paypal', 'tip', 'money'])
 async def cmd_function(msg, *args):

@@ -22,11 +22,17 @@ async def on_channel_subscription(subscriber: str, channel: Channel, msg: Messag
 
 
 # will be updated - follows
-@event_handler(Event.on_privmsg_received)
+#@event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
     allowed_users = {'streamlabs'}
     if 'Thank you for following' in msg.content and msg.author in allowed_users:
         await msg.reply('yes yes thank u for following! <3 i am the !bot of this channel')
+
+@event_handler(Event.on_pubsub_user_follow)
+async def on_pubsub_user_follow(self, raw: 'PubSubData', data: 'PubSubFollow'):
+    channel = await data.get_channel()
+  #  follower = data.follower_display_name
+    await channel.send_message(f'thank you for following')
 
 
 # bits

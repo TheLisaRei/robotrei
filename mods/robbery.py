@@ -8,9 +8,10 @@ import random
 @Command('robbery', aliases=['rob'])
 async def cmd_function(msg: Message, *args):
     target = msg.arg_or_default(0, msg.author)
-    victim = target.lstrip('@')
+    victim = target.lstrip('@').lower()
     print(msg.author)
     print(target)
+    print(victim)
     await msg.reply(
         f'{target}, gimme all ur money or get stabbed [type give/fight]')
     response = await msg.wait_for_reply(

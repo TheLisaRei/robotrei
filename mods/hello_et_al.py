@@ -28,7 +28,7 @@ async def on_privmsg_received(msg: Message):
 lastFrogTime = datetime.min
 
 
-@event_handler(Event.on_privmsg_received)
+# @event_handler(Event.on_privmsg_received)
 async def on_privmsg_received(msg: Message):
     frog_words = ['france', 'french', 'paris', 'baguette']
     message_frog_words = [w.lower() for w in msg.content.split()]

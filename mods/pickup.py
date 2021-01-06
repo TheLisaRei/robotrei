@@ -2,7 +2,7 @@ from twitchbot import Command, Message, custom_predicate, choice
 
 
 
-@Command('pickup', aliases=['pua','pick','pickupline', 'line','seduction', 'seduce'])
+@Command('pickup', aliases=['pua','pick','pickupline', 'line','seduction', 'seduce', 'flirt', 'flirtwith'])
 async def cmd_function(msg: Message, *args):
     target = msg.arg_or_default(0, msg.author)
     await msg.reply(f'{target} ' + choice([
@@ -113,7 +113,17 @@ async def cmd_function(msg: Message, *args):
         'You are my semicolon; always present in everything I do.',
         'You are my initializer: without you, my life would point to nothing (null).',
         'Me gustaría ser un gato para pasar 7 vidas a tu lado.',
-        'Robar está mal pero un beso de tu boca sí me lo robaría'
+        'Robar está mal pero un beso de tu boca sí me lo robaría',
+        'We should merge our github repos',
+        'you have the brain, I have the charm. lets make a .py',
+        ' i dont know your name so can i call u mine',
+        'I’d never play hide and seek with you because someone like you is impossible to find',
+        'are you an object-oriented programming language? because damn, you have class',
+        'Let me tie your shoes, cause I dont want you falling for anyone else.',
+        ' everyone is catching covid 19 but im only catching feeling for u',
+        'Was you father an alien? Because there’s nothing else like you on Earth!',
+        ' If your heart was a prison, I would like to be sentenced for life.'
+
 
 
         ]))

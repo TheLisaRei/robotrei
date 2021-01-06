@@ -1,7 +1,6 @@
 from twitchbot import Command, Message, custom_predicate, choice
 
 
-
 # fix user input later
 
 @Command('soulmate')
@@ -14,7 +13,6 @@ async def cmd_soulmate(msg: Message, *args):
             lambda m: any(text in [p.lower() for p in m.parts] for text in ('girl', 'boy')), msg=msg
         ), timeout=30
     )
-
 
     if not response.is_message:
         await msg.reply(f'u have not responded {msg.mention}, seems like u are not ready for this knowledge ')
@@ -45,5 +43,9 @@ async def cmd_soulmate(msg: Message, *args):
             f' omg {msg.mention} i know who ur soulmate is!! his name is Jacob Black and he was born in London October 12 1828!! oh wait... 1827... oh no... welp. ur soulmate is long dead. u will never find anyone else... no no dont cry... get an ouija board or something?',
             f'hmm {msg.mention} the devil whispered in my ear that your true love is Jasper from Twilight... how embarassing.. do you havew a vampire fetish or something??? hes not even real and he was a CONFEDERATE soldier.. eww',
             f' oh no {msg.mention}... your soulmate plays LoL, i am so sorry, i will give you a full refund for my services, that is really unfortunate. our society places too much value on being in a romantic relationship, theres nothing wrong with staying single forever. its really the better option for you all thing considered',
-            f' hmmmm idk how to tell you this but your soulmate is a furry {msg.mention}, the worst thing is that his fursona is a bird. i am a very tolerant being but it is disturbing... the bird part esp'
+            f' hmmmm idk how to tell you this but your soulmate is a furry {msg.mention}, the worst thing is that his fursona is a bird. i am a very tolerant being but it is disturbing... the bird part esp',
+            f'so {msg.mention} i am contacting the spirits to find your true love... it is a difficult process... please come back later... but to compensate you for your patience i will tell you that your best friend has desires for your mother',
+            f'{msg.mention} your one true love is a tall handsome stranger you will meet on october 24th while waiting for the lights to turn green, i cannot tell you more',
+            f'{msg.mention} his name starts with an A... beware, men whos names start with an A or a J are trouble...',
+            f'{msg.mention} your future husband will propose to you in New York city on valentines day in Albertos on 63rd, he will even make a reservation in advance and you will have a table by the window'
         ]))

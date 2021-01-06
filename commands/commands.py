@@ -1,10 +1,17 @@
-from twitchbot import Command
-
+from twitchbot import Command, Message
+import asyncio
 import datetime
 
 
 
-
+# start pomodoro timer
+@Command('tomato')
+async def cmd_function(msg, *args):
+    await msg.reply(f'ok {msg.mention} you should work/study for the next 25min, ill notify u when its time for a break')
+    await asyncio.sleep(1500)
+    await msg.reply(f' {msg.mention} congrats, your work time has finished, enjoy a 5min break, ill tell you when its over')
+    await asyncio.sleep(300)
+    await msg.reply(f' {msg.mention} congrats, you completed a cycle, use !tomato to start again')
 
 
 # misc
@@ -13,11 +20,21 @@ import datetime
 async def cmd_function(msg, *args):
     await msg.reply(f'you exist {msg.mention}')
 
+@Command('coffee')
+async def cmd_function(msg, *args):
+    await msg.reply(f'lol u wish {msg.mention}... i am not ur secretary lisare1Robot  go make ur own coffee u lazy kiddo')
+
+@Command('book')
+async def cmd_function(msg, *args):
+    await msg.reply('liveblog by megan boyle.. LIVEBLOG is an historical text, extremely unique and shockingly human. In 2013, Megan Boyle was unhappy with the life she was living and wanted to document it on the internet for an audience.  https://www.amazon.com/LIVEBLOG-Megan-Boyle/dp/099921862X')
 
 @Command('tea')
 async def cmd_function(msg, *args):
     await msg.reply('vanilla rooibos tea!')
 
+@Command('brain')
+async def cmd_function(msg, *args):
+    await msg.reply('https://i.redd.it/w8n9ovbtr0p51.jpg')
 
 @Command('amazon', aliases=['bezos', 'jeff'])
 async def cmd_function(msg, *args):
@@ -29,19 +46,6 @@ async def cmd_function(msg, *args):
     await msg.reply('elon musk should be made into a leather couch and left by the trashcan')
 
 
-@Command('theend')
-async def cmd_function(msg, *args):
-    allowed_users = {'lisarei'}
-    if msg.author in allowed_users:
-        await msg.reply(
-            'thank u all for watching!!! pls follow me!!! also come to my discord and see u tomorrow!!! <3 https://discord.com/invite/YuXqUR6')
-
-
-@Command('schedule')
-async def cmd_function(msg, *args):
-    await msg.reply(
-        'weekdays: 9-ish till evening I study and have lectures, then python and/or eve online in the evenings till cca 10pm. weekends: surprise but basically a more chill study/python/eve time')
-
 
 @Command('eve', aliases=['e', 'eveonline'])
 async def cmd_function(msg, *args):
@@ -50,6 +54,14 @@ async def cmd_function(msg, *args):
 
 
 # basics
+
+
+@Command('upset', aliases=['angry'])
+async def cmd_function(msg: Message, *args):
+    target = msg.arg_or_default(0, msg.author)
+    print(target)
+    await msg.reply(f'{target} is upset :( what did u all do? angry!? unacceptable... terrible!!' )
+
 
 @Command('panic')
 async def cmd_function(msg, *args):
@@ -69,11 +81,6 @@ async def cmd_function(msg, *args):
             'sorry guys this is my mom calling so i have to pick up so ill mute myself. shouldnt take toooo long.')
 
 
-@Command('bye')
-async def cmd_function(msg, *args):
-    await msg.reply(f'see u {msg.mention}, thnx for stopping by')
-
-
 @Command('brb')
 async def cmd_function(msg, *args):
     await msg.reply(f'{msg.mention} will be back soon!!')
@@ -87,11 +94,11 @@ async def cmd_function(msg, *args):
 @Command('time', aliases=['timezone'])
 async def cmd_function(msg, *args):
     await msg.reply(
-        f'time is  a social construct but here u go, it is: {(datetime.datetime.now()).strftime("%H:%M, %A %d/%m")}... gmt+1 babyy')
+        f'time is  a social construct but here u go, it is: {(datetime.datetime.now()).strftime("%H:%M:%S, %A %d/%m")}... gmt+1 babyy')
 
 
 # practical
-@Command('sound', aliases=['loud', 'quiet'])
+@Command('sound', aliases=['loud', 'quiet', 'volume'])
 async def cmd_function(msg, *args):
     await msg.reply(f'@lisarei something is wrong w the sound')
 
@@ -107,7 +114,7 @@ async def cmd_function(msg, *args):
         f'u gotta use channel points to make me not sit like a pretzel... but just this once ill sit up straight anyway')
 
 
-@Command('hydrate')
+@Command('hydrate', aliases=['drink', 'water'])
 async def cmd_function(msg, *args):
     await msg.reply(
         f'u gotta use channel points to make me drinkkk... but just this once ill take a sip since its u {msg.mention}')
@@ -125,11 +132,41 @@ async def cmd_function(msg, *args):
     await msg.reply(f'{msg.mention} is gonna be lurking <3')
 
 
+@Command('sticker', aliases=['smiley', 'smileyface', 'smile', 'stick'], cooldown=60)
+async def cmd_function(msg, *args):
+    await msg.reply('eyyy @lisarei i want u to stick a smiley face somewhere')
+
 @Command('hug')
 async def cmd_function(msg, *args):
     print(msg.mentions)
     await msg.reply(f'u have been hugged @{msg.mentions[0]} lisare1Heart ')
 
+
+@Command('poke')
+async def cmd_function(msg, *args):
+    print(msg.mentions)
+    await msg.reply(f'u have been poked @{msg.mentions[0]} lisare1Heart ')
+
+
+@Command('kiss')
+async def cmd_function(msg, *args):
+    print(msg.mentions)
+    await msg.reply(f'ugh u have been kissed @{msg.mentions[0]}... ew. unsanitary.. its covid season this is not allowed.')
+
+@Command('kill')
+async def cmd_function(msg, *args):
+    print(msg.mentions)
+    await msg.reply(f'lol u have been killed @{msg.mentions[0]}... rip i guess heh')
+
+@Command('resurrect')
+async def cmd_function(msg, *args):
+    print(msg.mentions)
+    await msg.reply(f'ooo u have been brought back from the dead @{msg.mentions[0]}... freaky lol')
+
+@Command('bully')
+async def cmd_function(msg, *args):
+    print(msg.mentions)
+    await msg.reply(f'u suck and cant sit with us @{msg.mentions[0]}... >:( ')
 
 @Command('thankyou', aliases=['thnx', 'ty'])
 async def cmd_function(msg, *args):
@@ -139,8 +176,9 @@ async def cmd_function(msg, *args):
 
 @Command('streamershoutout', aliases=['streamer', 'ss'])
 async def cmd_function(msg, *args):
-    print(msg.mentions)
-    await msg.reply(f'shoutout to @{msg.mentions[0]} who is also a streamer!! go follow them')
+    allowed_users = {'lisarei'}
+    if msg.author in allowed_users:
+        await msg.reply(f'shoutout to @{msg.mentions[0]} who is also a streamer!! go follow them')
 
 
 # about

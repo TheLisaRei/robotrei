@@ -30,7 +30,7 @@ except FileNotFoundError:
 
 
 # dictionary
-@Command('define', aliases=['word'], cooldown=60)
+@Command('define', aliases=['word', 'definition'], cooldown=60)
 async def cmd_function(msg, *args):
     if api_keys["dictionary"] == "":
         print("[BOT] !define command: missing api key for 'dictionary'")

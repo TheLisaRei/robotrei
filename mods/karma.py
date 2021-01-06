@@ -37,12 +37,21 @@ async def cmd_function(msg: Message, *args):
         'a giant moose, you get to walk around the pristine nature of northern canada and be majestic... you deserve it! congrats',
         'a parrot, your owner is a lonely old man and he loves you so much and you have a beautiful existence bringing joy to this sweet widower',
         'a unicorn! unfortunately youre the last one, so your life will be long and lonely - just like your current life',
-        'a lion, you will have a nice majestic life until your lion brother trows you off of a cliff for saying lion king is a boring movie',
+        'a lion, you will have a nice majestic life until your lion brother throws you off of a cliff for saying lion king is a boring movie',
         'a hobbit because you forced your girlfriend to watch Lord of the Rings... the whole 12 hours of it.... u animal.... u are a life sized hobbit in the minecraft world and your textures dont match at all',
         'Edward Cullen from Twilight bc you laughed at Lisas vampire fetish. enjoy the sparkles lolll',
         'a bat. some weirdo will disturb your home to fulfill his latex fetish',
         'a hippie hipster who doesnt believe in deodorant. nothing will change his mind. but u know... yet u cannot change... also u play the ukulele to pick up women at the local vegan store and it never works',
-        'a cute little spider. too bad you live in a house with a family of arachnophobes'
+        'a cute little spider. too bad you live in a house with a family of arachnophobes',
+        'a peaceful whale that floats around the ocean and never gets cold because you are a peaceful soul that has had too much stress to deal with in 2020',
+        'Shades404, your karma must be amazing!!! hes the best one of us all!!! congrats',
+        'a white rat! look at your cute little paws! awwwwwwwwwwwwwww',
+        'a beagle living with a house full of musicians, you absolutely love it and happily howl to their tunes!! what a joy! you must be a good person to deserve this fate in your next life!!!',
+        'a wild hare, you run around the fields with no worries. you are a decent person now, so your bunny existence will be relatively peaceful. unlike some others who get eaten by owls and eagles',
+        "the 47th president of the united states' doggo, she calls you Andy and you are loved by the entire nation",
+        'a zebra in a herd of other nice zebras'
+
+
 
 
 
