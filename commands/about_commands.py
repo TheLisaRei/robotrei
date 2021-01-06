@@ -1,5 +1,5 @@
 from twitchbot import Command
-
+from random import randint
 # about Lisa
 
 @Command('about', aliases=['lisa'])
@@ -53,10 +53,10 @@ async def cmd_function(msg, *args):
 async def cmd_function(msg, *args):
     await msg.reply('lisare1Heart  the timer is a pomodoro timer lisare1Heart  you break your workday into 25-minute chunks separated by five-minute breaks. for productivity lisare1Robot')
 
-
 @Command('iq')
 async def cmd_function(msg, *args):
-    await msg.reply('idk like 78 lol')
+    random_iq = randint(70, 180)
+    await msg.reply(f' so {msg.mention} ur IQ is {random_iq}...')
 
 
 @Command('follow', aliases=['ff'])
