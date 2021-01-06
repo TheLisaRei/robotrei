@@ -1,7 +1,10 @@
 from twitchbot import Command, Message
 import asyncio
 import datetime
+import zoneinfo
 
+#TIMEZONE LOADING
+available_timezones = zoneinfo.available_timezones()
 
 
 # start pomodoro timer
@@ -93,8 +96,45 @@ async def cmd_function(msg, *args):
 
 @Command('time', aliases=['timezone'])
 async def cmd_function(msg, *args):
-    await msg.reply(
-        f'time is  a social construct but here u go, it is: {(datetime.datetime.now()).strftime("%H:%M:%S, %A %d/%m")}... gmt+1 babyy')
+    if not args:
+        await msg.reply(
+            f'time is  a social construct but here u go, it is: {(datetime.datetime.now()).strftime("%H:%M:%S, %A %d/%m")}... gmt+1 babyy')
+        return
+
+    place = " ".join(args)
+    search_term = place.replace(" ", "_").lower()
+
+    # Just doing a linear search through every single timezone in
+    # the database, substring search on each.
+    # yeah, there is room for improvement on this, to catch spelling
+    # errors, for example.
+
+    # NOTE: you may need to grab data from somewhere to get this
+    # to work (I didn't look that deeply into it):
+    # https://docs.python.org/3/library/zoneinfo.html#data-sources
+
+    # also, maybe there is a database (or api) somewhere to be able
+    # to look up _any_ city or town, and find the respective timezone.
+    # as of right now, timezones are just searched through the standard
+    # timezone names, and so the number of cities it can locate is
+    # very small. Basically these (assuming the timezone database we
+    # have here, in python, on the machine running this code, is the
+    # same as this one - which I think it is..but I really don't know,
+    # sorry):
+    # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+    found_timezone = None
+    for zone in available_timezones:
+        if search_term in zone.lower():
+            found_timezone = zoneinfo.ZoneInfo(zone)
+            break
+
+    if found_timezone is None:
+        await msg.reply(f"Couldn't find timezone for \"{place}\"")
+    else:
+        now_utc = datetime.datetime.now(datetime.timezone.utc)
+        now_local = now_utc.astimezone(found_timezone)
+        formatted_date = now_local.strftime("%A, %H:%M")
+        await msg.reply(f"Current local time in {place}: {formatted_date}")
 
 
 # practical
