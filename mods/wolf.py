@@ -26,9 +26,12 @@ create_text_choice_command('shop', ' you walk into a weapons shop, you can purch
                            axe=['@{user} you grab the axe and attack the wall, the place comes falling down, as well as you...'],
                            wolf=['@{user} you grab the wolf, WAIT, why is there a live wolf in the shop?!?!'])
 
-create_text_choice_command('zoo', ' you walk into a zoo and you see: (choose one: zebra, lion, hippo, crocodile, panda)',
+create_text_choice_command('zoo', ' you walk into a zoo and you see: (choose one: zebra, lion, hippo, crocodile, panda, camel)',
                            zebra=['@{user} you see a herd of zebras and they all stare at you while chewing. reminds you of cows you used to see at grandmas farm', 'you cant find the zebra enclosure... why are all the signs so confusing?? ugh @{user}'],
                            lion=['@{user} you go towards the lion exhibit and turns out its feeding time, kinda gross but also kinda cool. huh'],
                            hippo=['@{user} did u know that hippos are one of the deadliest animals??? very fast chonky boys with big mouths'],
                            crocodile=['@{user} you go to the crocodile pond and try to find one, but it seems like they are all underwater, maybe come back later'],
-                           panda=['@{user} you go take a look at the pandas, you are in luck because a big fluffy panda is sitting right by the glass and chewing on some bamboo. you make eye contact. amazing. you stand there for about 15 min and then go get some donuts from the stand next to the flamingos'])
+                           panda=['@{user} you go take a look at the pandas, you are in luck because a big fluffy panda is sitting right by the glass and chewing on some bamboo. you make eye contact. amazing. you stand there for about 15 min and then go get some donuts from the stand next to the flamingos'],
+                           camel=['@{user} the camels smell :(']
+
+                           )

@@ -7,6 +7,7 @@ async def cmd_function(msg: Message, *args):
     target = msg.arg_or_default(0, msg.author)
     await msg.reply(f'{target} ' + choice([
             'are from tennessee? bc youre the only 10 i see!!!',
+        'uggg I guess you are my little pog champ'
         'Hey, my names Microsft. Can I crash at your place tonight?',
         'Are you French? Because Eiffel for you.',
         'Do you like raisins? How do you feel about a date?',

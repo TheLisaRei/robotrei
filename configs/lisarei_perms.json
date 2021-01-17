@@ -12,7 +12,9 @@
     "name": "global",
     "permissions": [
       "vote",
-      "listpolls"
+      "listpolls",
+      "!mine",
+      "gamble"
     ],
     "members": []
   }
