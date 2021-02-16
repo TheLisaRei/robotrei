@@ -1,0 +1,14 @@
+# Locally generated
+database.sqlite
+
+# Configuration with secure things
+configs/config.json
+configs/mysql.json
+configs/api_keys.json
+configs/database_config.json
+
+# Dev environments
+__pycache__
+.idea
+.env
+.venv/
