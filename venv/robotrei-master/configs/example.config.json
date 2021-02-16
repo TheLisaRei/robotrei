@@ -1,0 +1,38 @@
+{
+  "nick": "nick",
+  "oauth": "oauth:",
+  "client_id": "CLIENT_ID",
+  "prefix": "!",
+  "default_balance": 200,
+  "loyalty_interval": 60,
+  "loyalty_amount": 2,
+  "owner": "BOT_OWNER_NAME",
+  "channels": [
+    "lisarei"
+  ],
+  "mods_folder": "mods",
+  "commands_folder": "commands",
+  "command_server_enabled": true,
+  "command_server_port": 1337,
+  "command_server_host": "localhost",
+  "disable_whispers": false,
+  "use_command_whitelist": false,
+  "send_message_on_command_whitelist_deny": true,
+  "command_whitelist": [
+    "help",
+    "commands",
+    "reloadcmdwhitelist",
+    "reloadmod",
+    "reloadperms",
+    "disablemod",
+    "enablemod",
+    "disablecmdglobal",
+    "disablecmd",
+    "enablecmdglobal",
+    "enablecmd",
+    "addcmd",
+    "delcmd",
+    "updatecmd",
+    "cmd"
+  ]
+}
